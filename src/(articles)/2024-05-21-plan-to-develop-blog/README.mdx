@@ -13,9 +13,11 @@ import { WhyMDX } from '../../_common/components/WhyMDX';
 
 개발 블로그를 개발하기로 했다. 내가 쓰려고.
 
+## 목차
+
 [TOC]
 
-## 개발 동기, 고려한 점 및 선택한 플랫폼 [motivation-and-considerations-and-platform-chosen]
+## 개발 동기, 고려한 점 및 선택한 플랫폼 \{#motivation-and-considerations-and-platform-chosen\}
 
 일단 고려한 점은 대강 다음과 같다
 
@@ -32,7 +34,7 @@ GitHub Pages 놔두고 굳이 티스토리를 선택했던 이유는 1, 2, 3번 
 
 그래서 바로 개발 착수.
 
-## 목표 [goals]
+## 목표 \{#goals\}
 
 개발 관련 글을 주로 올릴 계획인데, 개발 관련 글 중 제일 꼴 보기 싫은 게 **실행 안 되는 코드, 404 뜨는 링크**가 있는 글이었다.
 
@@ -44,11 +46,11 @@ GitHub Pages 놔두고 굳이 티스토리를 선택했던 이유는 1, 2, 3번 
 
 내가 하는 일이 웹 쪽이다 보니, 웹 프론트엔드 코드라면 블로그에서 바로 실행해서 보여줄 수 있으면 좋겠다. 예를 들면 이렇게 <WhyMDX />
 
-## 기능 [features]
+## 기능 \{#features\}
 
 일단 큰 틀의서의 기본적인 기능과 세부적인 기능으로 나눌 수 있을 것 같다.
 
-### 기본적인 기능 [basic-features]
+### 기본적인 기능 \{#basic-features\}
 
 - 기본적인 정적 블로그
   - 글을 파일로 관리
@@ -57,7 +59,7 @@ GitHub Pages 놔두고 굳이 티스토리를 선택했던 이유는 1, 2, 3번 
 - [Google analytics SuperProxy](https://developers.google.com/analytics/solutions/google-analytics-super-proxy#intro) 또는 [HITS](https://hits.seeyoufarm.com/)를 이용한 페이지뷰 카운터
 - [giscus](https://giscus.app/)를 이용한 댓글 창
 
-### 글 관련 기능 [article-related-features]
+### 글 관련 기능 \{#article-related-features\}
 
 - `[TOC]` 목차
 - 코드 하이라이팅
@@ -65,16 +67,16 @@ GitHub Pages 놔두고 굳이 티스토리를 선택했던 이유는 1, 2, 3번 
 - Katex를 이용한 수학 기호
 - 커스텀 리액트 컴포넌트
 
-### 편의 기능 [convenience-features]
+### 편의 기능 \{#convenience-features\}
 
 - 글을 쓴 시각, 마지막 수정 시각을 직접 적지 않아도 git에서 가져옴
 
-### 당연한 기능 [trivial-features]
+### 당연한 기능 \{#trivial-features\}
 
 - 다크모드
 - 다른 사람도 쓸 수 있도록
 
-## 개발 방향 및 기술 스택 [development-direction-and-tech-stack]
+## 개발 방향 및 기술 스택 \{#development-direction-and-tech-stack\}
 
 목표, 기능을 정하고 나니 대충 가닥이 잡힌다.
 
@@ -83,6 +85,6 @@ GitHub Pages 놔두고 굳이 티스토리를 선택했던 이유는 1, 2, 3번 
 글은 외부 Git 저장소를 clone받아 빌드 스크립트 실행 후 publish하도록, 다른 블로그도 양산할 수 있게 만든다.  
 이참에 스타일도 외부 Git 저장소에서 불러와도 되겠다.
 
-## 일정 [schedule]
+## 일정 \{#schedule\}
 
 당장은 너무 바빠서 무리고, 나중에 개발해야지
