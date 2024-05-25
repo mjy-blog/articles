@@ -4,8 +4,21 @@ import babel from "@babel/core";
 import parser from "@babel/parser";
 import { compileSync } from "@mdx-js/mdx";
 import estreeToBabel from "estree-to-babel";
+import rehypeKatex from "rehype-katex";
+import rehypeMermaid, { RehypeMermaidOptions } from "rehype-mermaid";
+import rehypePrismAll from "rehype-prism-plus/all";
+import rehypeRemoveComments, {
+  Options as RehypeRemoveCommentsOptions,
+} from "rehype-remove-comments";
+import remarkBreaks from "remark-breaks";
+import remarkCodeImport from "remark-code-import";
+import remarkCodeTitle from "remark-code-title";
+import remarkEmoji from "remark-emoji";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkHeadingId from "remark-heading-id";
+import remarkHint from "remark-hint";
+import remarkInlineLinks from "remark-inline-links";
+import remarkMath from "remark-math";
 import remarkToc, { Options as RemarkTocOptions } from "remark-toc";
 
 export function babelPluginSyntaxMdx(): babel.PluginItem {
@@ -22,6 +35,22 @@ function babelParserWithMdx(value: any, options: any) {
           remarkFrontmatter,
           remarkHeadingId,
           [remarkToc, <RemarkTocOptions>{ heading: "목차" }],
+          remarkMath,
+          remarkCodeImport,
+          remarkCodeTitle,
+          remarkEmoji,
+          remarkHint as any, // TODO: fix type
+          remarkInlineLinks,
+          remarkBreaks,
+        ],
+        rehypePlugins: [
+          rehypeKatex,
+          [rehypeMermaid, <RehypeMermaidOptions>{ strategy: "pre-mermaid" }],
+          rehypePrismAll,
+          [
+            rehypeRemoveComments,
+            <RehypeRemoveCommentsOptions>{ removeConditional: true },
+          ],
         ],
       }
     ).result;
