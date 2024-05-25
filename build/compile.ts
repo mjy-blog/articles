@@ -19,10 +19,15 @@ const original = `export default function MDXContent(props = {}) {
 
 const replacement = `export { _createMdxContent as default };`;
 
+export interface CompileResult {
+  content: string;
+  replacedCode: string;
+}
+
 export async function compile(
   inFilePath: string,
   outFilePath: string
-): Promise<void> {
+): Promise<CompileResult> {
   const content = (await readFile(inFilePath)).toString();
   const result = await babel.transformAsync(content, {
     filename: inFilePath,
@@ -38,4 +43,6 @@ export async function compile(
 
   await mkdir(dirname(outFilePath), { recursive: true });
   await writeFile(outFilePath, replacedCode);
+
+  return { content, replacedCode };
 }
