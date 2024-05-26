@@ -2,10 +2,5 @@
 /node_modules
 /package-lock.json
 
-# env
-.env
-.env.*
-!.env.sample
-
 # custom
 /out
