@@ -1,10 +1,74 @@
+import { spawn } from "node:child_process";
 import { join, resolve } from "node:path";
+import { stderr } from "node:process";
 
 import frontmatter from "front-matter";
 
 import { writeFile } from "node:fs/promises";
 import { compile } from "./compile";
 import { listArticles } from "./listArticles";
+
+async function getCreateTime(path: string): Promise<string> {
+  const gitlog = spawn("git", [
+    "log",
+    "--follow",
+    "--format=%ad",
+    "--date=iso-strict",
+    path,
+  ]);
+  const tail1 = spawn("tail", ["-1"], {
+    stdio: [gitlog.stdout, "pipe", stderr],
+  });
+
+  let result = "";
+  tail1.stdout.on("data", (d) => {
+    result += d.toString();
+  });
+
+  await new Promise<void>((resolve, reject) => {
+    gitlog.on("exit", (code, signal) => {
+      if (code || signal)
+        reject(new Error(`Error, code: ${code}, signal: ${signal}`));
+      resolve();
+    });
+  });
+  await new Promise<void>((resolve, reject) => {
+    tail1.on("exit", (code, signal) => {
+      if (code || signal)
+        reject(new Error(`Error, code: ${code}, signal: ${signal}`));
+      resolve();
+    });
+  });
+
+  result = result.trim();
+  return result;
+}
+
+async function getUpdateTime(path: string): Promise<string> {
+  const gitlog = spawn("git", [
+    "log",
+    "-1",
+    "--format=%ci",
+    "--date=iso-strict",
+    path,
+  ]);
+
+  let result = "";
+  gitlog.stdout.on("data", (d) => {
+    result += d.toString();
+  });
+
+  await new Promise<void>((resolve, reject) => {
+    gitlog.on("exit", (code, signal) => {
+      if (code || signal)
+        reject(new Error(`Error, code: ${code}, signal: ${signal}`));
+      resolve();
+    });
+  });
+
+  result = result.trim();
+  return result || new Date().toISOString();
+}
 
 interface Article {
   attributes: any;
@@ -24,7 +88,9 @@ interface Article {
       path.replace(/[\\/]README\.mdx$/, "/page.js")
     );
     const { content } = await compile(inPath, outPath);
-    const { attributes } = frontmatter(content);
+    const { attributes } = frontmatter<any>(content);
+    attributes.createTime ??= await getCreateTime(inPath);
+    attributes.updateTime ??= await getUpdateTime(inPath);
     articles.push({
       path: join("(articles)", path.replace(/[\\/]README\.mdx$/, "/page.js")),
       attributes,
