@@ -9,6 +9,11 @@ categories:
   - IT
   - 잡지식
 type: default
+keywords:
+  - cr
+  - lf
+  - crlf
+  - lfcr
 ---
 
 줄바꿈문자로 보통 윈도우는 `\r\n`을, POSIX류는 `\n`을 사용한다.
@@ -65,13 +70,13 @@ type: default
 ```c file=./embed/lf_incomplete.c {4}
 ```
 
-![Result of printing LF after line, cooked mode](./static/lf_incomplete.png)
+![Result of printing LF after line, canonical mode](./static/lf_incomplete.png)
 
 뭔가... 이상하다? 커서가 아래로 한 칸 내려가기만 한 게 아니라 `\r`을 붙인 것 같은 결과가 나오고 있다.
 
-이는 터미널의 모드 때문이다. 기본적으로는 cooked mode로, 자동으로 이것저것 처리된다.
+이는 터미널의 모드 때문이다. 기본적으로는 canonical mode로, 자동으로 이것저것 처리된다.
 
-raw mode로 들어가면 자동으로 이것저것 처리되던 것들이 꺼진다. raw mode로 해 보자.
+raw mode로 들어가면 자동으로 이것저것 처리되던 것들이 꺼진다. 일단 출력 후처리만 끄고 해 보자.
 
 ```c file=./embed/lf_complete.c {9-10}
 ```
