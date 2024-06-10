@@ -1,25 +1,26 @@
 // from https://mdxjs.com/docs/getting-started/
 
-import babel from "@babel/core";
-import parser from "@babel/parser";
-import { compileSync } from "@mdx-js/mdx";
-import estreeToBabel from "estree-to-babel";
-import rehypeKatex from "rehype-katex";
-import rehypeMermaid, { RehypeMermaidOptions } from "rehype-mermaid";
-import rehypePrismAll from "rehype-prism-plus/all";
+import babel from '@babel/core';
+import parser from '@babel/parser';
+import { compileSync } from '@mdx-js/mdx';
+import estreeToBabel from 'estree-to-babel';
+import rehypeKatex from 'rehype-katex';
+import rehypeMermaid, { RehypeMermaidOptions } from 'rehype-mermaid';
+import rehypePrismAll from 'rehype-prism-plus/all';
 import rehypeRemoveComments, {
   Options as RehypeRemoveCommentsOptions,
-} from "rehype-remove-comments";
-import remarkBreaks from "remark-breaks";
-import remarkCodeImport from "remark-code-import";
-import remarkCodeTitle from "remark-code-title";
-import remarkEmoji from "remark-emoji";
-import remarkFrontmatter from "remark-frontmatter";
-import remarkHeadingId from "remark-heading-id";
-import remarkHint from "remark-hint";
-import remarkInlineLinks from "remark-inline-links";
-import remarkMath from "remark-math";
-import remarkToc, { Options as RemarkTocOptions } from "remark-toc";
+} from 'rehype-remove-comments';
+import remarkBreaks from 'remark-breaks';
+import remarkCodeImport from 'remark-code-import';
+import remarkCodeTitle from 'remark-code-title';
+import remarkEmoji from 'remark-emoji';
+import remarkFrontmatter from 'remark-frontmatter';
+import remarkGFM from 'remark-gfm';
+import remarkHeadingId from 'remark-heading-id';
+import remarkHint from 'remark-hint';
+import remarkInlineLinks from 'remark-inline-links';
+import remarkMath from 'remark-math';
+import remarkToc, { Options as RemarkTocOptions } from 'remark-toc';
 
 export function babelPluginSyntaxMdx(): babel.PluginItem {
   return { parserOverride: babelParserWithMdx };
@@ -34,25 +35,26 @@ function babelParserWithMdx(value: any, options: any) {
         remarkPlugins: [
           remarkFrontmatter,
           remarkHeadingId,
-          [remarkToc, <RemarkTocOptions>{ heading: "목차" }],
+          [remarkToc, <RemarkTocOptions>{ heading: '목차' }],
           remarkMath,
           remarkCodeImport,
           remarkCodeTitle,
           remarkEmoji,
           remarkHint as any, // TODO: fix type
           remarkInlineLinks,
+          remarkGFM,
           remarkBreaks,
         ],
         rehypePlugins: [
           rehypeKatex,
-          [rehypeMermaid, <RehypeMermaidOptions>{ strategy: "pre-mermaid" }],
+          [rehypeMermaid, <RehypeMermaidOptions>{ strategy: 'pre-mermaid' }],
           rehypePrismAll,
           [
             rehypeRemoveComments,
             <RehypeRemoveCommentsOptions>{ removeConditional: true },
           ],
         ],
-      }
+      },
     ).result;
   }
 

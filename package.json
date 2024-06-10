@@ -26,6 +26,7 @@
     "remark-code-title": "^0.2.5",
     "remark-emoji": "^4.0.1",
     "remark-frontmatter": "^5.0.0",
+    "remark-gfm": "^4.0.0",
     "remark-heading-id": "^1.0.1",
     "remark-hint": "^1.0.10",
     "remark-inline-links": "^7.0.0",
