@@ -54,7 +54,7 @@
   "frontMatter.content.pageFolders": [
     {
       "title": "articles",
-      "path": "[[workspace]]/src/(articles)",
+      "path": "[[workspace]]/src/posts",
       "contentTypes": ["default"]
     }
   ],

@@ -6,7 +6,7 @@ import frontmatter from "front-matter";
 
 import { writeFile } from "node:fs/promises";
 import { compile } from "./compile";
-import { listArticles } from "./listArticles";
+import { listPosts } from "./listPosts";
 
 async function getCreateTime(path: string): Promise<string> {
   const gitlog = spawn("git", [
@@ -77,24 +77,21 @@ interface Article {
 }
 
 (async () => {
-  const articlePaths = await listArticles(resolve("src/(articles)"));
+  const articlePaths = await listPosts(resolve("src/posts"));
   const articles: Article[] = [];
   for (let i = 0; i < articlePaths.length; i++) {
     const path = articlePaths[i];
     console.log(`(${i + 1}/${articlePaths.length}) compiling ${path}`);
-    const inPath = join("src/(articles)", path);
-    const outPath = join(
-      "out/(articles)",
-      path.replace(/[\\/]README\.mdx$/, "/page.js")
-    );
+    const inPath = join("src/posts", path, "README.mdx");
+    const outPath = join("out/posts", path, "page.js");
     const { content } = await compile(inPath, outPath);
     const { attributes } = frontmatter<any>(content);
     attributes.createTime ??= await getCreateTime(inPath);
     attributes.updateTime ??= await getUpdateTime(inPath);
     articles.push({
-      path: join("(articles)", path.replace(/[\\/]README\.mdx$/, "/page.js")),
+      path: join("posts", path, "page.js"),
       attributes,
-      slug: path.replace(/[\\/]README\.mdx$/, ""),
+      slug: path,
     });
   }
   console.log("done.");

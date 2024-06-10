@@ -11,4 +11,4 @@ if [ -z "$ARTICLE_SLUG" ]; then
   exit 1
 fi
 
-[ ! -d "src/(articles)/$ARTICLE_SLUG/static" ] || (mkdir -p "out/public/$ARTICLE_SLUG" && cp -r "src/(articles)/$ARTICLE_SLUG/static" "out/public/$ARTICLE_SLUG/")
+[ ! -d "src/posts/$ARTICLE_SLUG/static" ] || (mkdir -p "out/public/$ARTICLE_SLUG" && cp -r "src/posts/$ARTICLE_SLUG/static" "out/public/$ARTICLE_SLUG/")

@@ -26,10 +26,10 @@ static void disable_raw_mode() {
 
 static void enable_raw_mode() {
   if (tcgetattr(STDIN_FILENO, &original_termios) == -1)
-    exit (EXIT_FAILURE);
+    exit(EXIT_FAILURE);
   atexit(disable_raw_mode);
   struct termios raw = original_termios;
   raw.c_oflag &= ~OPOST;
   if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw) == -1)
-    exit (EXIT_FAILURE);
+    exit(EXIT_FAILURE);
 }
