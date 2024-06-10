@@ -74,11 +74,13 @@ keywords:
 
 ![Result of printing LF after line, canonical mode](./static/lf_incomplete.png)
 
-뭔가... 이상하다? 커서가 아래로 한 칸 내려가기만 한 게 아니라 `\r`을 붙인 것 같은 결과가 나오고 있다.
+뭔가... 이상하다?
+커서가 아래로 한 칸 내려가기만 한 게 아니라 `\r`을 붙인 것 같은 결과가 나오고 있다.
 
 이는 터미널의 모드 때문이다. 기본적으로는 canonical mode로, 자동으로 이것저것 처리된다.
 
-raw mode로 들어가면 자동으로 이것저것 처리되던 것들이 꺼진다. 일단 출력 후처리만 끄고 해 보자.
+raw mode로 들어가면 자동으로 이것저것 처리되던 것들이 꺼진다.
+일단 출력 후처리만 끄고 해 보자.
 
 ```c file=./embed/lf_complete.c {9-10}
 ```
@@ -111,7 +113,8 @@ CRLF 이후에 sleep중인 모습. 예상과 같다.
 
 ![Result of printing CRLF or LFCR after line, sleep after LFCR](./static/crlf_and_lfcr_and_sleep_2.png)
 
-LFCR 이후에 sleep중인 모습. stdout이 줄 단위로 버퍼링되기 때문에 `\r`이 아직 출력되지 않은 상태.
+LFCR 이후에 sleep중인 모습.
+stdout이 줄 단위로 버퍼링되기 때문에 `\r`이 아직 출력되지 않은 상태.
 
 ## 결론
 
