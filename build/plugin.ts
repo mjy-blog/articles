@@ -31,6 +31,9 @@ function babelParserWithMdx(value: any, options: any) {
     return compileSync(
       { value, path: options.sourceFileName },
       {
+        remarkRehypeOptions: {
+          clobberPrefix: 's-',
+        },
         recmaPlugins: [recmaBabel],
         remarkPlugins: [
           remarkFrontmatter,
