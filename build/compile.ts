@@ -1,9 +1,9 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 
-import babel from "@babel/core";
+import babel from '@babel/core';
 
-import { dirname } from "node:path";
-import { babelPluginSyntaxMdx } from "./plugin";
+import { dirname } from 'node:path';
+import { babelPluginSyntaxMdx } from './plugin';
 
 const original = `export default function MDXContent(props = {}) {
   const {
@@ -26,7 +26,7 @@ export interface CompileResult {
 
 export async function compile(
   inFilePath: string,
-  outFilePath: string
+  outFilePath: string,
 ): Promise<CompileResult> {
   const content = (await readFile(inFilePath)).toString();
   const result = await babel.transformAsync(content, {
@@ -36,7 +36,7 @@ export async function compile(
   const code = result!.code!;
 
   if (!code.endsWith(original)) {
-    throw new Error("Dependencies updated, build script must be updated.");
+    throw new Error('Dependencies updated, build script must be updated.');
   }
   const replacedCode =
     code.substring(0, code.length - original.length) + replacement;
