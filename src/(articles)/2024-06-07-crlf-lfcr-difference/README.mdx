@@ -51,7 +51,9 @@ keywords:
 
 ![Result of printing nothing after line](./static/none.png)
 
-프로그램 실행이 끝나고 `sh-3.2$ `가 출력된 것이다.
+프로그램 실행이 끝나고 `$ `가 출력된 것이다.[^1]
+
+[^1]: 쉘을 `PS1='$ ' sh`로 실행했음
 
 ### CR \{#cr\}
 
@@ -62,8 +64,8 @@ keywords:
 
 ![Result of printing CR after line](./static/cr.png)
 
-마찬가지로 프로그램 실행이 끝나고 `sh-3.2$ `가 출력된 것인데,
-커서가 맨 앞으로 이동돼 있었기 때문에 `Hello wo`부분이 가려진 것이다.
+마찬가지로 프로그램 실행이 끝나고 `$ `가 출력된 것인데,
+커서가 맨 앞으로 이동돼 있었기 때문에 `He`부분이 가려져서 `llo world!`가 보이는 것이다.
 
 ### LF \{#lf\}
 
