@@ -1,0 +1,30 @@
+---
+title: 타입을 default export하기
+description: 'export default type Error = "이거 안 되던데?"'
+preview: ""
+tags:
+  - 토막글
+  - TypeScript
+categories:
+  - TypeScript
+  - 문법
+type: default
+keywords:
+  - default export
+---
+
+```ts
+export default type Error = "일단 이건 안 된다.";
+```
+
+타입스크립트에서 타입을 default export할 수 있을까?
+
+```ts file=./embed/default-export-type.ts
+```
+
+정답은... **할 수 있다.**
+
+```ts file=./embed/default-export-type-usage.ts
+```
+
+이런 간단한 테스트 코드를 작성해서 실제로 동작하는지 확인할 수 있다.
