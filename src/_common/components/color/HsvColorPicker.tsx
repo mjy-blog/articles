@@ -56,7 +56,7 @@ export function HsvColorPicker({ color, onColorChange }: HsvColorPickerProps) {
           type="range"
           min="0"
           max="1000"
-          value={state[0] * 1000}
+          value={state[1] * 1000}
           onChange={handleSChange}
         />
       </div>
@@ -66,7 +66,7 @@ export function HsvColorPicker({ color, onColorChange }: HsvColorPickerProps) {
           type="range"
           min="0"
           max="1000"
-          value={state[0] * 1000}
+          value={state[2] * 1000}
           onChange={handleVChange}
         />
       </div>
