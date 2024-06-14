@@ -1,3 +1,5 @@
+'use client';
+
 import { useMemo, useState } from 'react';
 
 import { hsvToRgb } from '../../util/color/hsvToRgb';
