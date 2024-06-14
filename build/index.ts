@@ -4,6 +4,7 @@ import { stderr } from 'node:process';
 
 import frontmatter from 'front-matter';
 
+import { glob } from 'glob';
 import { writeFile } from 'node:fs/promises';
 import { compile } from './compile';
 import { listPosts } from './listPosts';
@@ -77,6 +78,17 @@ interface Article {
 }
 
 (async () => {
+  const includes = (await glob('**/*.mdx', { cwd: 'src/include' })).map(
+    (path) => path.replace(/\.mdx$/, ''),
+  );
+  for (let i = 0; i < includes.length; i++) {
+    const path = includes[i];
+    console.log(`(${i + 1}/${includes.length}) compiling ${path}`);
+    const inPath = join('src/include', `${path}.mdx`);
+    const outPath = join('out/include', `${path}.js`);
+    await compile(inPath, outPath);
+  }
+
   const articlePaths = await listPosts(resolve('src/posts'));
   const articles: Article[] = [];
   for (let i = 0; i < articlePaths.length; i++) {
