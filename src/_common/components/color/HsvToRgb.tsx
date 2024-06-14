@@ -7,15 +7,19 @@ import { HsvColor, HsvColorPicker } from './HsvColorPicker';
 
 export function HsvToRgb() {
   const [color, setColor] = useState<HsvColor>([0, 0, 0]);
-  const previewColor = useMemo(() => {
-    const [r, g, b] = hsvToRgb(...color);
-    return `rgb(${r}, ${g}, ${b})`;
+  const [previewColor, [r, g, b]] = useMemo((): [
+    previewColor: string,
+    rgb: [r: number, g: number, b: number],
+  ] => {
+    const rgb = hsvToRgb(...color);
+    const [r, g, b] = rgb;
+    return [`rgb(${r}, ${g}, ${b})`, rgb];
   }, [color]);
 
   return (
     <div>
       <HsvColorPicker color={color} onColorChange={setColor} />
-      변환 결과:
+      변환 결과: rgb({r}, {g}, {b})
       <div style={{ background: previewColor, height: 100 }} />
     </div>
   );

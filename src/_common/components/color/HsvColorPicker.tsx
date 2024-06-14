@@ -41,13 +41,34 @@ export function HsvColorPicker({ color, onColorChange }: HsvColorPickerProps) {
   return (
     <div>
       <div>
-        H: <input type="range" min="0" max="1000" onChange={handleHChange} />
+        H:{' '}
+        <input
+          type="range"
+          min="0"
+          max="1000"
+          value={state[0] * 1000}
+          onChange={handleHChange}
+        />
       </div>
       <div>
-        S: <input type="range" min="0" max="1000" onChange={handleSChange} />
+        S:{' '}
+        <input
+          type="range"
+          min="0"
+          max="1000"
+          value={state[0] * 1000}
+          onChange={handleSChange}
+        />
       </div>
       <div>
-        V: <input type="range" min="0" max="1000" onChange={handleVChange} />
+        V:{' '}
+        <input
+          type="range"
+          min="0"
+          max="1000"
+          value={state[0] * 1000}
+          onChange={handleVChange}
+        />
       </div>
       <button type="button" onClick={handleSubmitClick}>
         확인
