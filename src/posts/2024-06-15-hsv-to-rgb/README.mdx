@@ -1,0 +1,43 @@
+---
+title: HSV to RGB
+description: HSV -> RGB 공식
+preview: ""
+tags:
+  - HSV
+  - RGB
+  - TypeScript
+  - Interactive
+categories:
+  - Tools
+  - 색상 변환
+type: default
+---
+
+import { HsvColorPicker } from '../../_common/components/color/HsvColorPicker';
+
+<HsvColorPicker />
+
+## 공식 \{#fomula\}
+
+HSV는 Hue(색조), Saturation(채도), Value(명도)를 나타내며, RGB는 Red, Green, Blue의 세 가지 기본 색을 조합하여 색을 표현함
+
+### 변환 과정 \{#steps\}
+
+1. **색조(Hue) 해석**:
+  - HSV의 색조는 색상환에서의 위치를 0에서 1 또는 0에서 360 사이의 값으로 나타냄
+
+2. **채도와 명도 처리**:
+  - 채도는 색상의 순수함을 나타내며, 0은 완전한 회색(무채색), 1은 가장 순수한 색상을 의미함
+  - 명도는 색상의 밝기를 나타내며, 0은 완전한 검정색, 1은 색상의 가장 밝은 색을 의미함
+
+3. **RGB 값 계산**:
+  - 먼저 색조를 기준으로 6개의 구간 중 하나를 결정
+  - 채도와 명도, 구간에서의 위치에 따라 각 색상 구성 요소의 활성화 정도를 결정 (자세한 부분은 코드 참조)
+
+4. **결과값 조정**:
+  - 0에서 255 사이의 범위로 조정
+
+## 코드 \{#code\}
+
+```typescript file=../../_common/util/color/hsvToRgb.ts
+```
