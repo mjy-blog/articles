@@ -49,7 +49,7 @@ module.exports = nextConfig;
 
 내 경우에는 `{DOMAIN}`에 배포할 예정이므로 우선 `{extractOwnerFromGitHubPagesDomain(DOMAIN)}` organization을 만들고, 그 organization에 `{DOMAIN}`이라는 repository를 만들었다.
 
-`out` 폴더에 `.nojekyll` 파일을 만들고 모든 파일을 커밋 & push한다.
+`out` 폴더에 `.nojekyll` 파일을 만들고[^1] 모든 파일을 커밋 & push한다.
 
 ```shell
 cd out
@@ -64,3 +64,5 @@ git push origin --force
 이후 GitHub에서 다음 설정까지 하면 끝!
 
 ![GitHub에서 해야 할 설정](./static/1.png)
+
+[^1]: `.nojekyll` 파일이 없으면 `_next` 폴더가 통째로 무시돼버린다.
