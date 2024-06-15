@@ -1,0 +1,43 @@
+---
+title: C 헤더 정리 규칙
+description: C 파일에서 include를 정리해보자
+preview: ""
+tags:
+  - C
+  - 토막글
+categories:
+  - C
+type: default
+---
+
+C 파일에서 `#include` 줄이 많아지면 어떻게 관리하는 게 좋을까?
+
+여러가지 규칙이 있겠지만, 아무래도 이미 많이 쓰이고 있는 규칙대로 하는 게 좋을 것이다.
+
+- 0: 아마 그 C 파일에서 구현하는 모든 (static이 아닌) 함수는 한 개의 헤더에서 정의하고 있었을 것이다. 그 헤더를 제일 먼저 쓴다. 없으면 말고.
+- 1: 시스템 헤더. 예를 들면 `<stdio.h>`, `<stdlib.h>`, 또는 `<unistd.h>` 등
+- 2: 써드파티 라이브러리 헤더.
+- 3: 해당 프로젝트의 헤더
+
+이렇게 그룹으로 나누고, 각각 없다면 스킵.
+
+예를 들면 이렇게.
+
+```c
+#include "foobar.c"
+
+#include <stdio.h>
+
+#include "foobar_constants.h"
+#include "foobar_core.h"
+
+void foo() {
+  puts(FOOBAR_FOO);
+}
+
+void bar() {
+  puts(foobar_get_bar());
+}
+```
+
+물론, 그 프로젝트에 이미 규칙이 있다면 그 규칙을 따르자.
