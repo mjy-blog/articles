@@ -55,7 +55,7 @@ bool serialize_bmp(bmp *self, char **out, size_t *out_length) {
   *((uint32_t *)(result + 34)) = u32_to_le((uint32_t)whole_size);
   *((uint32_t *)(result + 38)) = u32_to_le(0);
   *((uint32_t *)(result + 42)) = u32_to_le(0);
-  *((uint32_t *)(result + 46)) = u32_to_le(256);
+  *((uint32_t *)(result + 46)) = u32_to_le(0);
   *((uint32_t *)(result + 50)) = u32_to_le(0);
 
   // image data
