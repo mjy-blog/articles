@@ -30,7 +30,7 @@ static uint16_t u16_to_le(uint16_t u16) {
   return (result);
 }
 
-bool serialize_bmp(bmp *self, char **out, size_t *out_length) {
+bool serialize_bmp(bmp_t *self, char **out, size_t *out_length) {
   const size_t row_padding = (4 - (self->width * 3) % 4) % 4;
   const size_t row_size = self->width * 3 + row_padding;
   const size_t whole_size = row_size * self->height;

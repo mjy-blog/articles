@@ -3,7 +3,7 @@
 
 #include "bmp.h"
 
-static char buf[256 * 256 * 3 + sizeof(bmp)];
+static char buf[256 * 256 * 3 + sizeof(bmp_t)];
 
 int main(int argc, char *argv[]) {
   // arguments validation
@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
     exit(EXIT_FAILURE);
 
   // dummy image
-  bmp *bmp = (void *)&buf[0];
+  bmp_t *bmp = (void *)&buf[0];
   bmp->width = 256;
   bmp->height = 256;
   for (size_t i = 0; i < 256; i++) {

@@ -4,17 +4,17 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-typedef struct _bmp_pixel {
+typedef struct bmp_pixel {
   uint8_t r;
   uint8_t g;
   uint8_t b;
-} bmp_pixel;
+} bmp_pixel_t;
 
-typedef struct _bmp {
+typedef struct bmp {
   size_t width;
   size_t height;
-  bmp_pixel extra[];
-} bmp;
+  bmp_pixel_t extra[];
+} bmp_t;
 
 /**
  * @brief Serialize bmp
@@ -25,4 +25,4 @@ typedef struct _bmp {
  * @return true on failure
  * @return false on success
  */
-bool serialize_bmp(bmp *self, char **out, size_t *out_length);
+bool serialize_bmp(bmp_t *self, char **out, size_t *out_length);
