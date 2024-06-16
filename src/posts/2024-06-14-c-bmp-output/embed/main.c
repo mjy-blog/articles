@@ -3,7 +3,7 @@
 
 #include "bmp.h"
 
-static char buf[256 * 256 * 3 + sizeof(bmp_t)];
+static char buf[256 * 256 * sizeof(bmp_pixel_t) + sizeof(bmp_t)];
 
 int main(int argc, char *argv[]) {
   // arguments validation
