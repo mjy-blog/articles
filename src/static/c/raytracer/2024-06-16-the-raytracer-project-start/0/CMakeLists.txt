@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(print-write)
+project(write_image)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_BINARY_DIR})
 add_executable(main main.c ../../write_image.c ../../external/bmp.c)

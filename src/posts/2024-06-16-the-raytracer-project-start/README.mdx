@@ -1,10 +1,11 @@
 ---
 title: raytracer 프로젝트 - 시작!
 description: 레이트레이싱 튜토리얼!
-preview: ""
+preview: ''
 tags:
   - C
   - 그래픽스
+  - 레이트레이싱
   - raytracer
 categories:
   - 튜토리얼
@@ -35,15 +36,15 @@ BMP 출력은 궁금하다면 [이 글](/posts/2024-06-14-c-bmp-output)을 참�
 
 이미지를 한 픽셀씩 그리는 함수 `renderer_t`를 받고, 이미지 파일로 출력하면서 어디까지 진행됐는지 출력하는 함수이다.
 
-```c file=../../static/c/raytracer/2024-06-16-the-raytracer-project/0/main.c title="tmp/0/main.c"
+```c file=../../static/c/raytracer/2024-06-16-the-raytracer-project-start/0/main.c title="tmp/0/main.c"
 ```
 
 일단 아무 이미지나 나오게 만들어서, 아래 파일들로 테스트하면 아래 이미지가 나온다
 
-```cmake file=../../static/c/raytracer/2024-06-16-the-raytracer-project/0/CMakeLists.txt title="tmp/0/CMakeLists.txt"
+```cmake file=../../static/c/raytracer/2024-06-16-the-raytracer-project-start/0/CMakeLists.txt title="tmp/0/CMakeLists.txt"
 ```
 
-```shell file=../../static/c/raytracer/2024-06-16-the-raytracer-project/0/build.sh title="tmp/0/build.sh"
+```shell file=../../static/c/raytracer/2024-06-16-the-raytracer-project-start/0/build.sh title="tmp/0/build.sh"
 ```
 
 ![결과 이미지](./static/0.bmp)
@@ -71,6 +72,62 @@ BMP 출력은 궁금하다면 [이 글](/posts/2024-06-14-c-bmp-output)을 참�
 ```c file=../../static/c/raytracer/f3.c title="f3.c"
 ```
 
-## 마무리 \{#conclusion\}
+여기서 normalize(정규화)는 길이가 1이 아닌 벡터의 길이를 1로 만드는 것이다.
 
-// TODO: 완성하기
+벡터를 아래의 세 가지 의미 중 하나로 쓸 것이다.
+
+1. 위치
+2. 위치의 차이 (방향 + 거리)
+3. 방향
+
+여기서 방향을 나타내는 벡터는 길이가 항상 1이어야 한다.
+
+B 위치에서 A 위치를 빼면 A에서 B로 가는 위치의 차이를 얻을 수 있고, 이를 정규화하면 A에서 B로 향하는 방향을 얻을 수 있다.
+
+## 카메라 \{#camera\}
+
+카메라에서 광선을 발사할 것이다. 그런데 화면상의 위치를 어떻게 광선의 위치, 방향으로 바꿀까?
+
+카메라에는 일단 크게 두 종류가 있다.
+
+1. 직교 카메라 (orthgonal)
+2. 원근 카메라 (perspective)
+
+상세한 구현은 나중에 하기로 하고, 우선 간단한 직교 카메라만 구현해 보자.
+
+x가 오른쪽, y가 앞쪽, z가 위쪽인 좌표계를 생각해 보자.
+
+```c file=../../static/c/raytracer/2024-06-16-the-raytracer-project-start/1/main.c title="tmp/1/main.c"
+```
+
+ray(광선)를 만들고, origin(시작한 위치)가 0보다 작으면 검정색, 아니면 흰색으의 이미지를 만들 것이다.
+
+```cmake file=../../static/c/raytracer/2024-06-16-the-raytracer-project-start/1/CMakeLists.txt title="tmp/1/CMakeLists.txt"
+```
+
+이하 `build.sh` 내용은 위의 `build.sh`와 동일.
+
+<img
+  src="./static/1.bmp"
+  alt="결과 이미지"
+  style={{ border: '2px solid gray' }}
+/>
+
+## 구 \{#sphere\}
+
+구와 광선의 충돌 확인을 통해 구를 렌더링 해 보자.
+
+```c file=../../static/c/raytracer/2024-06-16-the-raytracer-project-start/2/main.c title="tmp/2/main.c"
+```
+
+자세한 계산 과정은 주석 참고.
+
+이하 `CMakeLists.txt` 내용은 위의 `CMakeLists.txt`와 동일.
+
+<img
+  src="./static/2.bmp"
+  alt="결과 이미지"
+  style={{ border: '2px solid gray' }}
+/>
+
+실행하면 이런 결과를 얻을 수 있다.

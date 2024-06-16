@@ -26,3 +26,7 @@ f3_t f3_cross(f3_t a, f3_t b) {
   return (f3_t){a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z,
                 a.x * b.y - a.y * b.x};
 }
+
+f3_t f3_normalize(f3_t f3) {
+  return f3_div1(f3, f3_length(f3));
+}
