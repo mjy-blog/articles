@@ -1,5 +1,5 @@
 ---
-title: raytracer 프로젝트
+title: raytracer 프로젝트 - 시작!
 description: 레이트레이싱 튜토리얼!
 preview: ""
 tags:
@@ -19,7 +19,7 @@ type: default
 
 [TOC]
 
-## 이미지 출력하기
+## 이미지 출력하기 \{#printing-image\}
 
 이미지를 GUI로 보여주기보다는 그냥 BMP파일로 출력하는 식으로 진행할 것이다.
 
@@ -47,5 +47,30 @@ BMP 출력은 궁금하다면 [이 글](/posts/2024-06-14-c-bmp-output)을 참�
 ```
 
 ![결과 이미지](./static/0.bmp)
+
+## 수학적 배경 \{#mathematics-background\}
+
+레이트레이싱은 픽셀마다 광선을 발사해서, 그 광선이 부딛힌 곳의 색을 구하는 방식으로 동작한다.
+
+광선에는 두가지 속성이 있다.
+
+1. 광선이 시작한 위치
+2. 광선이 향하는 방향
+
+여기서 위치와 방향이 모두 벡터이다.
+
+벡터는 가변 갈이 배열이라는 의미도 있지만, 여기서의 벡터의 의미는 수학의 그 벡터이다.
+
+3차원 공간상의 위치와 방향을 나타낼 것이기에 3차원 벡터를 사용할 것이다.
+
+```c file=../../static/c/raytracer/f3.h title="f3.h"
+```
+
+이런 함수들을 구현할 것이다.
+
+```c file=../../static/c/raytracer/f3.c title="f3.c"
+```
+
+## 마무리 \{#conclusion\}
 
 // TODO: 완성하기
