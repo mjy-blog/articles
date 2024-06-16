@@ -95,15 +95,15 @@ bmp_pixel_t renderer(void *context, float x_on_image, float y_on_image) {
   const ray_t ray = {origin, camera_direction};
 
   f3_t normal;
-  if (collide(ray, sphere, &normal)) {
-    return (bmp_pixel_t){
-        // normal의 각 요소는 -1에서 1 사이이므로, 0에서 255 사이로 만든다
-        (uint8_t)((normal.x * 0.5f + 0.5f) * 255 + 0.5f),
-        (uint8_t)((normal.y * 0.5f + 0.5f) * 255 + 0.5f),
-        (uint8_t)((normal.z * 0.5f + 0.5f) * 255 + 0.5f),
-    };
+  if (!collide(ray, sphere, &normal)) {
+    return white;
   }
-  return white;
+  return (bmp_pixel_t){
+      // normal의 각 요소는 -1에서 1 사이이므로, 0에서 255 사이로 만든다
+      (uint8_t)((normal.x * 0.5f + 0.5f) * 255 + 0.5f),
+      (uint8_t)((normal.y * 0.5f + 0.5f) * 255 + 0.5f),
+      (uint8_t)((normal.z * 0.5f + 0.5f) * 255 + 0.5f),
+  };
 }
 
 int main(int argc, char **argv) {
