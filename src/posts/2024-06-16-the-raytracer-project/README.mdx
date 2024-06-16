@@ -1,0 +1,51 @@
+---
+title: raytracer 프로젝트
+description: 레이트레이싱 튜토리얼!
+preview: ""
+tags:
+  - C
+  - 그래픽스
+  - raytracer
+categories:
+  - 튜토리얼
+  - 그래픽스
+  - 레이트레이싱
+type: default
+---
+
+!> 이 글은 [raytracer](/tags/raytracer) 시리즈입니다.
+
+## 목차 \{#TOC\}
+
+[TOC]
+
+## 이미지 출력하기
+
+이미지를 GUI로 보여주기보다는 그냥 BMP파일로 출력하는 식으로 진행할 것이다.
+
+BMP 출력은 궁금하다면 [이 글](/posts/2024-06-14-c-bmp-output)을 참고하자. [`bmp.c`, `bmp.h`](https://gist.github.com/mjy9088/d83644effad787701d5569d4a05d4cbe)를 그대로 사용할 것이다.
+
+```c file=../../static/c/raytracer/write_image.h title="write_image.h"
+```
+
+일단 간단한 이미지 출력 함수를 작성해보자
+
+```c file=../../static/c/raytracer/write_image.c title="write_image.c"
+```
+
+이미지를 한 픽셀씩 그리는 함수 `renderer_t`를 받고, 이미지 파일로 출력하면서 어디까지 진행됐는지 출력하는 함수이다.
+
+```c file=../../static/c/raytracer/2024-06-16-the-raytracer-project/0/main.c title="tmp/0/main.c"
+```
+
+일단 아무 이미지나 나오게 만들어서, 아래 파일들로 테스트하면 아래 이미지가 나온다
+
+```cmake file=../../static/c/raytracer/2024-06-16-the-raytracer-project/0/CMakeLists.txt title="tmp/0/CMakeLists.txt"
+```
+
+```shell file=../../static/c/raytracer/2024-06-16-the-raytracer-project/0/build.sh title="tmp/0/build.sh"
+```
+
+![결과 이미지](./static/0.bmp)
+
+// TODO: 완성하기
