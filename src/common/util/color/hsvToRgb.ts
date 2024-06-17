@@ -15,13 +15,13 @@ export function hsvToRgb(
 
   switch (type % 6) {
     case 0:
-      [r, g, b] = [v, t, q];
+      [r, g, b] = [v, t, p];
       break;
     case 1:
       [r, g, b] = [q, v, p];
       break;
     case 2:
-      [r, g, b] = [q, v, t];
+      [r, g, b] = [p, v, t];
       break;
     case 3:
       [r, g, b] = [p, q, v];
