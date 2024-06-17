@@ -13,8 +13,8 @@ typedef struct camera {
 } camera_t;
 
 typedef enum camera_fov_mode {
-  WIDTH_FOV,
-  HEIGHT_FOV,
+  FOV_X,
+  FOV_Y,
 } camera_fov_mode_t;
 
 camera_t perspective_camera(f3_t camera_position, float yaw, float pitch,

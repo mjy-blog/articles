@@ -17,3 +17,11 @@ cp ../../static/c/raytracer/2024-06-17-the-raytracer-project-camera/1/main.c.dif
 sh ../../static/c/raytracer/2024-06-17-the-raytracer-project-camera/2/build.sh
 cp ../../static/c/raytracer/2024-06-17-the-raytracer-project-camera/2/result.bmp static/2.bmp
 cp ../../static/c/raytracer/2024-06-17-the-raytracer-project-camera/2/main.c.diff embed/2.diff
+
+sh ../../static/c/raytracer/2024-06-17-the-raytracer-project-camera/3/build.sh
+cp ../../static/c/raytracer/2024-06-17-the-raytracer-project-camera/3/result.bmp static/3.bmp
+cp ../../static/c/raytracer/2024-06-17-the-raytracer-project-camera/3/main.c.diff embed/3.diff
+
+sh ../../static/c/raytracer/2024-06-17-the-raytracer-project-camera/4/build.sh
+cp ../../static/c/raytracer/2024-06-17-the-raytracer-project-camera/4/result.bmp static/4.bmp
+cp ../../static/c/raytracer/2024-06-17-the-raytracer-project-camera/4/main.c.diff embed/4.diff

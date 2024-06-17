@@ -29,15 +29,12 @@ f3_t f3_cross(f3_t a, f3_t b) {
                 a.x * b.y - a.y * b.x};
 }
 
-f3_t f3_normalize(f3_t f3) {
-  return f3_div1(f3, f3_length(f3));
-}
+f3_t f3_normalize(f3_t f3) { return f3_div1(f3, f3_length(f3)); }
 
-f3_t	f3_t_rotate(f3_t point, f3_t rotation)
-{
-	const float	yaw = rotation.x;
-	const float	pitch = rotation.y;
-	const float	roll = rotation.z;
+f3_t f3_rotate(f3_t point, f3_t rotation) {
+  const float yaw = rotation.x;
+  const float pitch = rotation.y;
+  const float roll = rotation.z;
 
-	return (f3x3_mul_f3(f3x3_rotate(yaw, pitch, roll), point));
+  return (f3x3_mul_f3(f3x3_rotate(yaw, pitch, roll), point));
 }
