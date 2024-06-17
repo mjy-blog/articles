@@ -40,6 +40,8 @@ type: default
 ```diff-c file=./embed/1.diff
 ```
 
+여기에서 fov란 **F**ield **O**f **V**iew, 시야각을 의미한다.
+
 <img
   src="./static/1.bmp"
   alt="결과 이미지"
@@ -55,18 +57,36 @@ type: default
 ```diff-c file=./embed/2.diff
 ```
 
+그렇다면 거리를 기준으로 하면 어떨까?
+
 <img
   src="./static/2.bmp"
   alt="결과 이미지"
   style={{ border: '2px solid gray' }}
 />
 
-그렇다면 거리를 기준으로 하면 어떨까?
-
-![거리가 기준일 때 각도가 다른 모습](./static/0.png)
-
 각도가 달라진다. 어떻게 하든 왜곡은 생기지만, 이는 어쩔 수 없는 현상이다.
 
+![거리가 기준일 때 각도가 다른 모습](./static/1.png)
+
 어쨌든 본격적으로 카메라를 구현해보자.
+
+```c file=../../static/c/raytracer/ray.h title="ray.h"
+```
+
+일단 `ray.h`를 공통으로 쓰도록 빼 두고,
+
+```c file=../../static/c/raytracer/camera.h title="camera.h"
+```
+
+카메라의 타입과 카메라를 만드는 함수를 선언한다.
+
+위에서는 가로/세로 비율이 같아서 fov 하나로 가로/세로에 같은 fov를 사용했지만, 가로/세로 비율이 다르면 각자 다른 fov를 사용해야 한다.
+
+가로/세로 비율(이하 종횡비)이 주어지면 가로나 세로 fov 중 한 쪽에 따라 나머지 한 쪽이 정해진다.
+
+즉, 가로 fov나 세로 fov 중 하나만 받아도 된다는 의미이다.
+
+여기서 `camera_fov_mode_t`가 주어진 fov가 가로인지 세로인지 결정하는 데 쓰인다.
 
 // TODO: 마무리
