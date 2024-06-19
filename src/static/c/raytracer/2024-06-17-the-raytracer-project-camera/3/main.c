@@ -69,10 +69,16 @@ bool collide(ray_t ray, sphere_t sphere, f3_t *out_normal,
     // 실수 x가 존재하지 않으면 교점이 없는 것, 즉 충돌하지 않음
     return false;
   }
-  // 교점이 ± 때문에 두 개가 나오는데, ±가 +이면 뒷면이므로 여기서 ±는 -
+  // 교점이 ± 때문에 두 개가 나오는데, ±가 +이면 뒷면이므로 여기서 ±는 아마도 -
+  float t = (-b - sqrtf(discriminant)) / (2 * a);
+  if (t < 0) { // 음수인 경우 카메라 뒤쪽이므로 +로 재시도
+    t = (-b + sqrtf(discriminant)) / (2 * a);
+    if (t < 0) { // 이래도 음수면 결국 충돌 안 한 거
+      return false;
+    }
+  }
 
   // t를 통해 x^2 + y^2 + z^2 - r^2 = 0애서의 x, y, z를 구할 수 있음
-  const float t = (-b - sqrtf(discriminant)) / (2 * a);
   const float x = ray.origin.x + ray.direction.x * t;
   const float y = ray.origin.y + ray.direction.y * t;
   const float z = ray.origin.z + ray.direction.z * t;
