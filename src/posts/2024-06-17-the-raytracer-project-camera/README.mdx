@@ -20,6 +20,16 @@ type: default
 
 [TOC]
 
+## 유틸 \{#utils\}
+
+```c file=../../static/c/raytracer/util.h title="util.h"
+```
+
+우선 공통으로 쓰일 부분들을 따로 함수로 빼 두자.
+
+```c file=../../static/c/raytracer/util.c title="util.c"
+```
+
 ## 원근 카메라 \{#perspective-camera\}
 
 [이전 글](/posts/2024-06-16-the-raytracer-project-start)에서 간이로 간단한 직교 카메라를 구현했었다.
@@ -88,5 +98,36 @@ type: default
 즉, 가로 fov나 세로 fov 중 하나만 받아도 된다는 의미이다.
 
 여기서 `camera_fov_mode_t`가 주어진 fov가 가로인지 세로인지 결정하는 데 쓰인다.
+
+```c file=../../static/c/raytracer/perspective_camera.c title="perspective_camera.c"
+```
+
+이렇게 카메라를 간단히 구현 후, 이 카메라를 적용해서 테스트 해 보자.
+
+```diff-c file=./embed/3.diff
+```
+
+<img
+  src="./static/3.bmp"
+  alt="결과 이미지"
+  style={{ border: '2px solid gray' }}
+/>
+
+이미지 가로/세로 비율을 바꿔도 대충 잘 되는 것 같다.
+
+```diff-c file=./embed/4.diff
+```
+
+<img
+  src="./static/4.bmp"
+  alt="결과 이미지"
+  style={{ border: '2px solid gray' }}
+/>
+
+카메라 회전을 넣어도 마찬가지.
+
+## 직교 카메라 \{#orthogonal-camera\}
+
+직교 카메라는
 
 // TODO: 마무리

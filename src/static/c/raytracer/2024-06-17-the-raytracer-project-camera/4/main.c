@@ -134,7 +134,7 @@ int main(int argc, char **argv) {
   }
 
   camera_t camera =
-      perspective_camera(f3(0, 0, 0), 0.01f, 0.02f, 0.5f, width / (float)height,
+      perspective_camera(f3(0, 0, 0), 0.2f, 0.1f, 0.5f, width / (float)height,
                          FOV_X, perspective_camera_fov);
   write_image(argv[1], renderer, &camera, width, height);
 }

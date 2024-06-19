@@ -4,6 +4,7 @@ set -e
 
 cd "$(dirname "$0")"
 
+mkdir -p static
 mkdir -p embed
 
 sh ../../static/c/raytracer/2024-06-17-the-raytracer-project-camera/0/build.sh

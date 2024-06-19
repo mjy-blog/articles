@@ -5,4 +5,10 @@ set -e
 cd "$(dirname "$0")"
 
 sh ../../common/build.sh
-! diff -U 3 ../1/main.c main.c > main.c.diff
+diff -U 3 ../1/main.c main.c | awk '{
+  if ($1 == "---" || $1 == "+++") {
+    print $1 " " $2
+  } else {
+    print $0
+  }
+}' > main.c.diff
