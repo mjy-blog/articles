@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
-project(perspective-camera)
+project(orthogonal-camera)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_BINARY_DIR})
 add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
-add_executable(main main.c ../../write_image.c ../../f3.c ../../f3x3.c ../../external/bmp.c ../../util.c ../../perspective_camera.c)
+add_executable(main main.c ../../write_image.c ../../f3.c ../../f3x3.c ../../external/bmp.c ../../util.c ../../orthogonal_camera.c)

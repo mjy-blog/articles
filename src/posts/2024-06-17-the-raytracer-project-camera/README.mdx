@@ -128,6 +128,18 @@ type: default
 
 ## 직교 카메라 \{#orthogonal-camera\}
 
-직교 카메라는
+```c file=../../static/c/raytracer/orthogonal_camera.c title="orthogonal_camera.c"
+```
+
+직교 카메라는 origin이 픽셀의 화면상의 위치에 따라 적절히 떨어져 있으면 된다.
+
+```diff-c file=./embed/5.diff
+```
+
+<img
+  src="./static/5.bmp"
+  alt="결과 이미지"
+  style={{ border: '2px solid gray' }}
+/>
 
 // TODO: 마무리
