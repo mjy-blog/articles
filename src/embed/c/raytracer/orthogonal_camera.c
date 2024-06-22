@@ -35,7 +35,7 @@ camera_t orthogonal_camera(f3_t camera_position, float yaw, float pitch,
     context.height = size;
   }
   context.origin = camera_position;
-  context.rotation = f3x3_rotate(-yaw, -pitch, -roll);
+  context.rotation = f3x3_rotate(yaw, pitch, roll);
   context.direction = f3x3_mul_f3(f3(0, 1, 0), context.rotation);
   const camera_t result = {memdup(&context, sizeof(context)), get_ray};
   return result;

@@ -38,7 +38,7 @@ camera_t perspective_camera(f3_t camera_position, float yaw, float pitch,
     context.tan_fov_x = context.tan_fov_y * aspect_ratio;
   }
   context.origin = camera_position;
-  context.rotation = f3x3_rotate(-yaw, -pitch, -roll);
+  context.rotation = f3x3_rotate(yaw, pitch, roll);
   const camera_t result = {memdup(&context, sizeof(context)), get_ray};
   return result;
 }

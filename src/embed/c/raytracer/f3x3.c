@@ -37,11 +37,11 @@ f3x3_t f3x3_transpose(f3x3_t m) {
 static f3x3_t rotate_yaw(float rad) {
   const f3_t x = {
       cosf(rad),
-      sinf(rad),
+      -sinf(rad),
       0,
   };
   const f3_t y = {
-      -sinf(rad),
+      sinf(rad),
       cosf(rad),
       0,
   };
@@ -63,11 +63,11 @@ static f3x3_t rotate_pitch(float rad) {
   const f3_t y = {
       0,
       cosf(rad),
-      sinf(rad),
+      -sinf(rad),
   };
   const f3_t z = {
       0,
-      -sin(rad),
+      sin(rad),
       cos(rad),
   };
 
@@ -78,7 +78,7 @@ static f3x3_t rotate_roll(float rad) {
   const f3_t x = {
       cosf(rad),
       0,
-      sinf(rad),
+      -sinf(rad),
   };
   const f3_t y = {
       0,
@@ -86,7 +86,7 @@ static f3x3_t rotate_roll(float rad) {
       0,
   };
   const f3_t z = {
-      -sinf(rad),
+      sinf(rad),
       0,
       cosf(rad),
   };
