@@ -18,7 +18,7 @@ const f3_t camera_position = {0, 0, 0};
 const f3_t camera_direction = {0, 1, 0};
 const bmp_pixel_t white = {255, 255, 255};
 const sphere_t spheres[] = {
-    {{-2, 3, 0}, 1}, {{3, 5, 0}, 1},  {{0, 42, 0}, 0.1f},
+    {{-2, 3, 0}, 1}, {{3, 5, 0}, 1},  {{0, 5, 0}, 0.1f},
     {{42, 0, 0}, 2},  {{-42, 0, 0}, 2}, {{0, -42, 0}, 2},
 };
 
