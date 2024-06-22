@@ -19,8 +19,10 @@ const float orthogonal_camera_scale = 3.0f;
 const f3_t camera_position = {0, 0, 0};
 const f3_t camera_direction = {0, 1, 0};
 const bmp_pixel_t white = {255, 255, 255};
-const sphere_t sphere1 = {{-2, 3, 0}, 1};
-const sphere_t sphere2 = {{3, 5, 0}, 1};
+const sphere_t spheres[] = {
+    {{-2, 3, 0}, 1}, {{3, 5, 0}, 1},  {{0, 42, 0}, 0.1f},
+    {{42, 0, 0}, 2},  {{-42, 0, 0}, 2}, {{0, -42, 0}, 2},
+};
 
 static inline float sqr(float x) { return x * x; }
 
@@ -104,25 +106,17 @@ bmp_pixel_t renderer(void *context, float x_on_image, float y_on_image) {
   const f3_t origin = f3_add(camera_position, f3(x, 0, z));
   const ray_t ray = {origin, camera_direction};
 
-  f3_t normal;
-  f3_t normal1;
-  f3_t normal2;
-  float distance1;
-  float distance2;
-  const bool collide1 = collide(ray, sphere1, &normal1, &distance1);
-  const bool collide2 = collide(ray, sphere2, &normal2, &distance2);
-  if (!collide1 && !collide2) {
-    return white;
-  }
-  // 둘 다 교점이 있다면 가까운 것에 부딛힘
-  if (!collide1) {
-    normal = normal2;
-  } else if (!collide2) {
-    normal = normal1;
-  } else if (distance1 < distance2) {
-    normal = normal1;
-  } else {
-    normal = normal2;
+  f3_t tmp_normal;
+  f3_t normal = {0, 0, 0};
+  float tmp_distance;
+  float distance = -1.0f;
+  for (size_t i = 0; i < sizeof(spheres) / sizeof(spheres[0]); i++) {
+    if (collide(ray, spheres[i], &tmp_normal, &tmp_distance)) {
+      if (distance < tmp_distance) {
+        distance = tmp_distance;
+        normal = tmp_normal;
+      }
+    }
   }
   return (bmp_pixel_t){
       // normal의 각 요소는 -1에서 1 사이이므로, 0에서 255 사이로 만든다
