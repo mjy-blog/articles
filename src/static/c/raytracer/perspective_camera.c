@@ -19,7 +19,7 @@ static ray_t get_ray(void *context, float x, float y) {
   const float direction_z = -ctx->tan_fov_y * (y * 2.0f - 1.0f);
   const f3_t direction = {direction_x, direction_y, direction_z};
   const f3_t normal = f3_normalize(direction);
-  const f3_t rotated = f3x3_mul_f3(ctx->rotation, normal);
+  const f3_t rotated = f3x3_mul_f3(normal, ctx->rotation);
   const ray_t result = {ctx->origin, rotated};
   return result;
 }

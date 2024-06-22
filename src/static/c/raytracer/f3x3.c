@@ -63,11 +63,11 @@ static f3x3_t rotate_pitch(float rad) {
   const f3_t y = {
       0,
       cosf(rad),
-      -sinf(rad),
+      sinf(rad),
   };
   const f3_t z = {
       0,
-      sin(rad),
+      -sin(rad),
       cos(rad),
   };
 
@@ -106,7 +106,7 @@ f3x3_t f3x3_rotate_reverse(float yaw, float pitch, float roll) {
   return f3x3_transpose(f3x3_rotate(yaw, pitch, roll));
 }
 
-f3_t f3x3_mul_f3(f3x3_t mat, f3_t vec) {
+f3_t f3x3_mul_f3(f3_t vec, f3x3_t mat) {
   return f3(f3_dot(mat.x, vec), f3_dot(mat.y, vec), f3_dot(mat.z, vec));
 }
 

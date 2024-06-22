@@ -17,7 +17,7 @@ static ray_t get_ray(void *context, float x, float y) {
   const float offset_y = 1.0f;
   const float offset_z = -ctx->height * (y * 2.0f - 1.0f);
   const f3_t offset = {offset_x, offset_y, offset_z};
-  const f3_t rotated = f3x3_mul_f3(ctx->rotation, offset);
+  const f3_t rotated = f3x3_mul_f3(offset, ctx->rotation);
   const f3_t origin = f3_add(ctx->origin, rotated);
   const ray_t result = {origin, ctx->direction};
   return result;
@@ -36,7 +36,7 @@ camera_t orthogonal_camera(f3_t camera_position, float yaw, float pitch,
   }
   context.origin = camera_position;
   context.rotation = f3x3_rotate(-yaw, -pitch, -roll);
-  context.direction = f3x3_mul_f3(context.rotation, f3(0, 1, 0));
+  context.direction = f3x3_mul_f3(f3(0, 1, 0), context.rotation);
   const camera_t result = {memdup(&context, sizeof(context)), get_ray};
   return result;
 }

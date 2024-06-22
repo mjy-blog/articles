@@ -17,6 +17,6 @@ f3x3_t f3x3_mul(f3x3_t a, f3x3_t b);
 f3x3_t f3x3_transpose(f3x3_t mat);
 f3x3_t f3x3_rotate(float yaw, float pitch, float roll);
 f3x3_t f3x3_rotate_reverse(float yaw, float pitch, float roll);
-f3_t f3x3_mul_f3(f3x3_t mat, f3_t vec);
+f3_t f3x3_mul_f3(f3_t vec, f3x3_t mat);
 
 extern f3x3_t f3x3_i;

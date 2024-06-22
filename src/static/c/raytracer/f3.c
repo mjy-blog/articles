@@ -36,5 +36,5 @@ f3_t f3_rotate(f3_t point, f3_t rotation) {
   const float pitch = rotation.y;
   const float roll = rotation.z;
 
-  return (f3x3_mul_f3(f3x3_rotate(yaw, pitch, roll), point));
+  return (f3x3_mul_f3(point, f3x3_rotate(yaw, pitch, roll)));
 }
