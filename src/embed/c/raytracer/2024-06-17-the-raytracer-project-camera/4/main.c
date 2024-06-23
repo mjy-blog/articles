@@ -13,7 +13,7 @@ typedef struct sphere {
 
 const size_t width = 960;
 const size_t height = 540;
-const float orthogonal_camera_size = 1.5707963267948966f; // 90도
+const float perspective_camera_fov = 1.5707963267948966f; // 90도
 const f3_t camera_position = {0, 0, 0};
 const f3_t camera_direction = {0, 1, 0};
 const bmp_pixel_t white = {255, 255, 255};
@@ -129,6 +129,6 @@ int main(int argc, char **argv) {
 
   camera_t camera =
       perspective_camera(f3(0, 0, 0), 0.2f, 0.1f, 0.5f, width / (float)height,
-                         FOV_X, orthogonal_camera_size);
+                         FOV_X, perspective_camera_fov);
   write_image(argv[1], renderer, &camera, width, height);
 }
