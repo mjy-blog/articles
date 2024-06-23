@@ -18,8 +18,9 @@ const f3_t camera_position = {0, 0, 0};
 const f3_t camera_direction = {0, 1, 0};
 const bmp_pixel_t white = {255, 255, 255};
 const sphere_t spheres[] = {
-    {{-2, 3, 0}, 1}, {{3, 5, 0}, 1},  {{0, 5, 0}, 0.1f},
-    {{42, 0, 0}, 2},  {{-42, 0, 0}, 2}, {{0, -42, 0}, 2},
+    {{-2, 3, 0}, 1},
+    {{3, 5, 0}, 1},
+    {{0, 5, 0}, 0.1f},
 };
 
 static inline float sqr(float x) { return x * x; }
@@ -129,6 +130,6 @@ int main(int argc, char **argv) {
 
   camera_t camera =
       orthogonal_camera(f3(0, 0, 0), 0.2f, 0.1f, 0.5f, width / (float)height,
-                         SIZE_WIDTH, orthogonal_camera_size);
+                        SIZE_WIDTH, orthogonal_camera_size);
   write_image(argv[1], renderer, &camera, width, height);
 }
