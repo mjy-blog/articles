@@ -14,7 +14,7 @@ typedef struct orthogonal_camera_context {
 static ray_t get_ray(void *context, float x, float y) {
   orthogonal_camera_context_t *const ctx = context;
   const float offset_x = ctx->width * (x * 2.0f - 1.0f);
-  const float offset_y = 1.0f;
+  const float offset_y = 0.0f;
   const float offset_z = -ctx->height * (y * 2.0f - 1.0f);
   const f3_t offset = {offset_x, offset_y, offset_z};
   const f3_t rotated = f3x3_mul_f3(offset, ctx->rotation);
