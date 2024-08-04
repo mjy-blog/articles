@@ -1,0 +1,115 @@
+---
+title: Ubuntu 마인크래프트 서버 설정
+description: 서비스 설정으로 재부팅 시 자동 시작까지
+preview: ''
+tags:
+  - 마인크래프트
+  - Ubuntu
+  - 서버
+categories:
+  - IT 잡지식
+type: default
+---
+
+최근에 마인크래프트에 빠져서 포스팅이 뜸했다.
+
+## 목차 \{#TOC\}
+
+[TOC]
+
+## 사전 요구사항 \{#prerequisites\}
+
+- 포트포워딩 설정 가능한 공유기 - 포트포워딩 설정은 다루지 않는다.
+- Ubuntu Server가 설치된 컴퓨터 - 운영체제 설치는 다루지 않는다.
+- `openjdk-21-jre` 설치 - `apt install -y openjdk-21-jre`
+- root 권한 - 아래의 모든 과정은 root 유저를 기준으로 진행된다.
+
+## 세 줄 요약 \{#tl-dr\}
+
+```shell
+# 1.21을 기준으로 작성되었음
+mkdir /opt/minecraft && cd /opt/minecraft && https://piston-data.mojang.com/v1/objects/450698d1863ab5180c25d7c804ef0fe6369dd1ba/server.jar && groupadd minecraft && useradd --system --shell /usr/sbin/nologin --home /opt/minecraft -g minecraft minecraft && printf "[Unit]\nDescription=Minecraft Server: %%i\nAfter=network.target\n\n[Service]\nWorkingDirectory=/opt/minecraft/%%i\n\nUser=minecraft\nGroup=minecraft\nRestart=always\nExecStart=sh start.sh\n\n[Install]\nWantedBy=multi-user.target\n" > /etc/systemd/system/minecraft@.service
+# 월드별로
+mkdir world-name && printf '#!/bin/sh\n\njava -Xmx4G -Xms4G -jar ../server.jar nogui\n' > server-name/start.sh && echo "eula=true" > world-name/eula.txt && printf "accepts-transfers=false\nallow-flight=false\nallow-nether=true\nbroadcast-console-to-ops=true\nbroadcast-rcon-to-ops=true\nbug-report-link=\ndifficulty=easy\nenable-command-block=false\nenable-jmx-monitoring=false\nenable-query=false\nenable-rcon=false\nenable-status=true\nenforce-secure-profile=true\nenforce-whitelist=false\nentity-broadcast-range-percentage=100\nforce-gamemode=false\nfunction-permission-level=2\ngamemode=survival\ngenerate-structures=true\ngenerator-settings={}\nhardcore=false\nhide-online-players=false\ninitial-disabled-packs=\ninitial-enabled-packs=vanilla\nlevel-name=world\nlevel-seed=\nlevel-type=minecraft\:normal\nlog-ips=true\nmax-chained-neighbor-updates=1000000\nmax-players=20\nmax-tick-time=60000\nmax-world-size=29999984\nmotd=A Minecraft Server\nnetwork-compression-threshold=256\nonline-mode=true\nop-permission-level=4\nplayer-idle-timeout=0\nprevent-proxy-connections=false\npvp=true\nquery.port=25565\nrate-limit=0\nrcon.password=\nrcon.port=25575\nregion-file-compression=deflate\nrequire-resource-pack=false\nresource-pack=\nresource-pack-id=\nresource-pack-prompt=\nresource-pack-sha1=\nserver-ip=\nserver-port=25565\nsimulation-distance=10\nspawn-animals=true\nspawn-monsters=true\nspawn-npcs=true\nspawn-protection=16\nsync-chunk-writes=true\ntext-filtering-config=\nuse-native-transport=true\nview-distance=10\nwhite-list=false\n" > world-name/server.properties
+# 마무리
+chown -R minecraft:minecraft /opt/minecraft && systemctl start minecraft@world-name && systemctl enable minecraft@world-name
+```
+
+## 서버 폴더 설정
+
+우선 폴더를 만들고,
+
+```shell
+mkdir /opt/minecraft
+cd /opt/minecraft
+```
+
+[마인크래프트 서버 jar 파일 다운로드 페이지](https://www.minecraft.net/en-us/download/server)에서 링크를 복사해 다운로드한다.
+
+```shell
+wget <복사한 링크>
+```
+
+## 서비스 설정
+
+서비스를 월드 여러개를 설정하기 편하게 만들 것이다.
+
+`/etc/systemd/system/minecraft@.service` 파일을 생성한다.
+
+```systemd file=./embed/minecraft@.service title="/etc/systemd/system/minecraft@.service"
+```
+
+`minecraft@(월드명)` 서비스는 `/opt/minecraft/(월드명)`에서 `sh start.sh`를 실행할 것이다.
+
+`minecraft` 유저/그룹으로 실행할 것이기 때문에 `minecraft` 유저/그룹을 만들어야 한다.
+
+```shell
+groupadd minecraft
+useradd --system --shell /usr/sbin/nologin --home /opt/minecraft -g minecraft minecraft
+```
+
+## 월드별 설정
+
+월드별 설정은 월드 하나에 한 번씩 하면 된다.
+
+```shell
+mkdir (월드명)
+# https://aka.ms/MinecraftEULA EULA를 읽고 동의한다면
+echo "eula=true" > (월드명)/eula.txt
+```
+
+우선 월드에 대한 폴더를 만들고 `(월드명)eula.txt`를 작성한 후
+
+```properties file=./embed/server.properties title="(월드명)/server.properties"
+```
+
+여기서 (월드가 여러개라면 `query.port`와 `server-port`를 반드시 포함해) 원하는 값으로 적절히 바꾼 것을 `(월드명)/server.properties`에 저장한다.
+
+또는, 이미 다른 서버에서 월드를 옮기려는 경우에는 파일을 통째로 옮기면 된다.
+
+그리고 추가로 서비스에서 호출할 `(월드명)/start.sh` 파일을 만든다.
+
+```shell file=./embed/start.sh title="(월드명)/start.sh"
+```
+
+`4G` 부분에 이 월드에 할당할 램 용량을 입력하면 된다.
+
+## 마무리
+
+```shell
+chown -R minecraft:minecraft /opt/minecraft
+```
+
+서비스를 minecraft 유저/그룹에서 실행하도록 했으므로 권한을 변경해야 한다.
+
+```shell
+systemctl start minecraft@(월드명)
+```
+
+이렇게 시작할 수 있고,
+
+```shell
+systemctl enable minecraft@(월드명)
+```
+
+이렇게 켜질 때마다 실행되도록 할 수 있다.
