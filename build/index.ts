@@ -26,20 +26,22 @@ async function getCreateTime(path: string): Promise<string> {
     result += d.toString();
   });
 
-  await new Promise<void>((resolve, reject) => {
-    gitlog.on('exit', (code, signal) => {
-      if (code || signal)
-        reject(new Error(`Error, code: ${code}, signal: ${signal}`));
-      resolve();
-    });
-  });
-  await new Promise<void>((resolve, reject) => {
-    tail1.on('exit', (code, signal) => {
-      if (code || signal)
-        reject(new Error(`Error, code: ${code}, signal: ${signal}`));
-      resolve();
-    });
-  });
+  await Promise.all([
+    new Promise<void>((resolve, reject) => {
+      gitlog.on('exit', (code, signal) => {
+        if (code || signal)
+          reject(new Error(`Error, code: ${code}, signal: ${signal}`));
+        resolve();
+      });
+    }),
+    new Promise<void>((resolve, reject) => {
+      tail1.on('exit', (code, signal) => {
+        if (code || signal)
+          reject(new Error(`Error, code: ${code}, signal: ${signal}`));
+        resolve();
+      });
+    }),
+  ]);
 
   result = result.trim();
   return result;
