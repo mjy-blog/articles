@@ -12,3 +12,4 @@ if [ -z "$POST_SLUG" ]; then
 fi
 
 [ ! -d "src/posts/$POST_SLUG/static" ] || (mkdir -p "out/public/$POST_SLUG" && cp -r "src/posts/$POST_SLUG/static" "out/public/$POST_SLUG/")
+[ ! -d "src/posts/$POST_SLUG/components" ] || cp -r "src/posts/$POST_SLUG/components" "out/posts/$POST_SLUG/"

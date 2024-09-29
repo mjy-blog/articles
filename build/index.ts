@@ -80,9 +80,9 @@ interface Article {
 }
 
 (async () => {
-  const includes = (await glob('**/*.mdx', { cwd: 'src/include' })).map(
-    (path) => path.replace(/\.mdx$/, ''),
-  );
+  const includes = (await glob('**/*.mdx', { cwd: 'src/include' }))
+    .map((path) => path.replace(/\.mdx$/, ''))
+    .sort();
   for (let i = 0; i < includes.length; i++) {
     const path = includes[i];
     console.log(`(${i + 1}/${includes.length}) compiling ${path}`);

@@ -30,6 +30,7 @@ bool collide(ray_t ray, sphere_t sphere, f3_t *out_normal,
   // 카메라가 구 안에 있는지
   if (f3_length(f3_sub(ray.origin, sphere.center)) < sphere.radius) {
     *out_normal = f3_mul1(ray.direction, -1);
+    *out_distance = 0;
     return true;
   }
 
