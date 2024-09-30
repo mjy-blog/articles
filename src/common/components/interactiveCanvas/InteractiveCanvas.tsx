@@ -1,7 +1,17 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { InteractiveCanvasOptionDescriptor } from './InteractiveCanvasOptionDescriptor';
+import {
+  ComponentType,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
+import {
+  InteractiveCanvasOptionDescriptor,
+  InteractiveCanvasOptionItemDescriptor,
+  InteractiveCanvasOptionItemDescriptorComponentProps,
+} from './InteractiveCanvasOptionDescriptor';
 
 export interface InteractiveCanvasProps<T> {
   options: InteractiveCanvasOptionDescriptor<T>;
@@ -11,7 +21,10 @@ export interface InteractiveCanvasProps<T> {
 
 function getDefault<T>(options: InteractiveCanvasOptionDescriptor<T>): T {
   return Object.fromEntries(
-    Object.entries(options).map(([k, v]: any) => [k, v.default]),
+    Object.entries(options).map(([k, v]: any) => [
+      k,
+      (v as InteractiveCanvasOptionItemDescriptor<unknown>).defaultValue,
+    ]),
   );
 }
 
@@ -24,6 +37,7 @@ export function InteractiveCanvas<T>({
   const [renderResult, setRenderResult] = useState(() => render(state));
   const [element, ref] = useState<HTMLCanvasElement | null>(null);
   const [error, setError] = useState(false);
+  const [dirty, setDirty] = useState(false);
 
   useEffect(() => {
     if (element) {
@@ -36,6 +50,16 @@ export function InteractiveCanvas<T>({
       }
     }
   }, [element, renderResult]);
+  useEffect(() => {
+    if (dirty && renderAutomatically) {
+      setDirty(false);
+      setRenderResult(render(state));
+    }
+  }, [dirty, renderAutomatically, render]);
+  const handleClick = useCallback(
+    () => setRenderResult(render(state)),
+    [setRenderResult, render, state],
+  );
 
   return (
     <div>
@@ -45,7 +69,67 @@ export function InteractiveCanvas<T>({
         height={renderResult.height}
       />
       {error && <div style={{ color: 'red' }}>Error</div>}
-      // TODO: add option controller
+      <div>
+        {Object.entries(options)
+          .sort(([a], [b]) => a.localeCompare(b))
+          .map(([k, v]) => {
+            const option = v as InteractiveCanvasOptionItemDescriptor<unknown>;
+            return (
+              <Option
+                key={k}
+                state={state}
+                setState={setState}
+                setDirty={setDirty}
+                propertyName={k as keyof T}
+                displayName={option.displayName}
+                component={option.component}
+              />
+            );
+          })}
+      </div>
+      {!renderAutomatically && (
+        <div>
+          <button type="button" onClick={handleClick}>
+            확인
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+interface OptionProps<T> {
+  state: T;
+  setState: (set: SetStateAction<T>) => void;
+  setDirty: (dirty: boolean) => void;
+  propertyName: keyof T;
+  displayName: string;
+  component: ComponentType<
+    InteractiveCanvasOptionItemDescriptorComponentProps<unknown>
+  >;
+}
+
+function Option<T>({
+  state,
+  setState,
+  setDirty,
+  propertyName,
+  displayName,
+  component: Component,
+}: OptionProps<T>) {
+  const handleSetValue = useCallback(
+    (newValue: unknown) => {
+      setState((v) => ({ ...v, [propertyName]: newValue }));
+      setDirty(true);
+    },
+    [setState, propertyName, setDirty],
+  );
+  return (
+    <div>
+      <div>{displayName}</div>
+      <div>
+        <Component value={state[propertyName]} setValue={handleSetValue} />
+      </div>
     </div>
   );
 }

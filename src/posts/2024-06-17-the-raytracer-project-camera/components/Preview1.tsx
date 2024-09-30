@@ -1,7 +1,13 @@
 'use client';
 
+import { ComponentType } from 'react';
 import { InteractiveCanvas } from '../../../common/components/interactiveCanvas/InteractiveCanvas';
-import { InteractiveCanvasOptionDescriptor } from '../../../common/components/interactiveCanvas/InteractiveCanvasOptionDescriptor';
+import {
+  InteractiveCanvasOptionDescriptor,
+  InteractiveCanvasOptionItemDescriptorComponentProps,
+} from '../../../common/components/interactiveCanvas/InteractiveCanvasOptionDescriptor';
+import { floatOption } from '../../../common/components/interactiveCanvas/option/floatOption';
+import { integerOption } from '../../../common/components/interactiveCanvas/option/integerOption';
 import { add } from '../../../common/projectSpecific/raytracer/add';
 import { Direction } from '../../../common/projectSpecific/raytracer/Direction';
 import { Position } from '../../../common/projectSpecific/raytracer/Position';
@@ -9,26 +15,55 @@ import { Ray } from '../../../common/projectSpecific/raytracer/Ray';
 import { Sphere } from '../../../common/projectSpecific/raytracer/Sphere';
 import { sphereCollide } from '../../../common/projectSpecific/raytracer/sphereCollide';
 
-interface State {}
+interface State {
+  '1-size': number;
+  '2-orthogonal-camera-scale': number;
+  '3-camera-position': Position;
+  '4-camera-direction': Direction;
+  '5-spheres': Sphere[];
+}
 
-const options: InteractiveCanvasOptionDescriptor<State> = {};
+const component: ComponentType<
+  InteractiveCanvasOptionItemDescriptorComponentProps<any>
+> = function () {
+  return <div>// TODO</div>;
+};
+
+const options: InteractiveCanvasOptionDescriptor<State> = {
+  '1-size': integerOption('이미지 크기', 512),
+  '2-orthogonal-camera-scale': floatOption('직교 카메라 크기', 3),
+  '3-camera-position': {
+    displayName: 'camera position',
+    defaultValue: [0, 0, 0],
+    component,
+  },
+  '4-camera-direction': {
+    displayName: 'camera direction',
+    defaultValue: [0, 1, 0],
+    component,
+  },
+  '5-spheres': {
+    displayName: 'spheres',
+    defaultValue: [
+      { center: [-2, 3, 0], radius: 1 },
+      { center: [3, 5, 0], radius: 1 },
+      { center: [0, 5, 0], radius: 0.1 },
+    ],
+    component,
+  },
+};
 
 export function Preview1() {
   return <InteractiveCanvas options={options} render={render} />;
 }
 
-const size = 512;
-
-const orthogonalCameraScale = 3;
-const cameraPosition: Position = [0, 0, 0];
-const cameraDirection: Direction = [0, 1, 0];
-const spheres: Sphere[] = [
-  { center: [-2, 3, 0], radius: 1 },
-  { center: [3, 5, 0], radius: 1 },
-  { center: [0, 5, 0], radius: 0.1 },
-];
-
-function render(state: State): ImageData {
+function render({
+  '1-size': size,
+  '2-orthogonal-camera-scale': orthogonalCameraScale,
+  '3-camera-position': cameraPosition,
+  '4-camera-direction': cameraDirection,
+  '5-spheres': spheres,
+}: State): ImageData {
   const data = new Uint8ClampedArray(size * size * 4);
   for (let y = 0; y < size; y++) {
     for (let x = 0; x < size; x++) {

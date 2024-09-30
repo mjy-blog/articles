@@ -5,7 +5,8 @@ export type InteractiveCanvasOptionDescriptor<T> = {
 };
 
 export interface InteractiveCanvasOptionItemDescriptor<T> {
-  default: T;
+  defaultValue: T;
+  displayName: string;
   component: ComponentType<
     InteractiveCanvasOptionItemDescriptorComponentProps<T>
   >;
