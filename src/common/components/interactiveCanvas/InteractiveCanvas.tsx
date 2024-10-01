@@ -56,44 +56,55 @@ export function InteractiveCanvas<T>({
       setRenderResult(render(state));
     }
   }, [dirty, renderAutomatically, render]);
-  const handleClick = useCallback(
-    () => setRenderResult(render(state)),
-    [setRenderResult, render, state],
-  );
+  const handleSubmit = useCallback(() => {
+    setDirty(false);
+    setRenderResult(render(state));
+  }, [setRenderResult, render, state]);
+  const handleCancel = useCallback(() => {
+    const defaults = getDefault(options);
+    setDirty(false);
+    setRenderResult(render(defaults));
+  }, [options]);
 
   return (
-    <div>
-      <canvas
-        ref={ref}
-        width={renderResult.width}
-        height={renderResult.height}
-      />
-      {error && <div style={{ color: 'red' }}>Error</div>}
-      <div>
-        {Object.entries(options)
-          .sort(([a], [b]) => a.localeCompare(b))
-          .map(([k, v]) => {
-            const option = v as InteractiveCanvasOptionItemDescriptor<unknown>;
-            return (
-              <Option
-                key={k}
-                state={state}
-                setState={setState}
-                setDirty={setDirty}
-                propertyName={k as keyof T}
-                displayName={option.displayName}
-                component={option.component}
-              />
-            );
-          })}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ overflowX: 'auto' }}>
+        <canvas
+          ref={ref}
+          width={renderResult.width}
+          height={renderResult.height}
+        />
       </div>
+      {error && <div style={{ color: 'red' }}>Error</div>}
+      {Object.entries(options)
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([k, v]) => {
+          const option = v as InteractiveCanvasOptionItemDescriptor<unknown>;
+          return (
+            <Option
+              key={k}
+              state={state}
+              setState={setState}
+              setDirty={setDirty}
+              propertyName={k as keyof T}
+              displayName={option.displayName}
+              component={option.component}
+            />
+          );
+        })}
       {!renderAutomatically && (
-        <div>
-          <button type="button" onClick={handleClick}>
-            확인
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={handleSubmit}
+          style={{ background: dirty ? '#FFFF0088' : undefined }}
+          disabled={!dirty}
+        >
+          확인
+        </button>
       )}
+      <button type="button" onClick={handleCancel}>
+        취소
+      </button>
     </div>
   );
 }
@@ -127,9 +138,7 @@ function Option<T>({
   return (
     <div>
       <div>{displayName}</div>
-      <div>
-        <Component value={state[propertyName]} setValue={handleSetValue} />
-      </div>
+      <Component value={state[propertyName]} setValue={handleSetValue} />
     </div>
   );
 }

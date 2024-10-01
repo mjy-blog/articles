@@ -8,12 +8,15 @@ import {
 } from '../../../common/components/interactiveCanvas/InteractiveCanvasOptionDescriptor';
 import { floatOption } from '../../../common/components/interactiveCanvas/option/floatOption';
 import { integerOption } from '../../../common/components/interactiveCanvas/option/integerOption';
+import { normal3Option } from '../../../common/components/interactiveCanvas/option/normal3Option';
+import { vec3Option } from '../../../common/components/interactiveCanvas/option/vec3Option';
 import { add } from '../../../common/projectSpecific/raytracer/add';
 import { Direction } from '../../../common/projectSpecific/raytracer/Direction';
 import { Position } from '../../../common/projectSpecific/raytracer/Position';
 import { Ray } from '../../../common/projectSpecific/raytracer/Ray';
 import { Sphere } from '../../../common/projectSpecific/raytracer/Sphere';
 import { sphereCollide } from '../../../common/projectSpecific/raytracer/sphereCollide';
+import { spheresOption } from '../../../common/projectSpecific/raytracer/spheresOption';
 
 interface State {
   '1-size': number;
@@ -30,27 +33,15 @@ const component: ComponentType<
 };
 
 const options: InteractiveCanvasOptionDescriptor<State> = {
-  '1-size': integerOption('이미지 크기', 512),
+  '1-size': integerOption('이미지 크기', 512, 3840, 1),
   '2-orthogonal-camera-scale': floatOption('직교 카메라 크기', 3),
-  '3-camera-position': {
-    displayName: 'camera position',
-    defaultValue: [0, 0, 0],
-    component,
-  },
-  '4-camera-direction': {
-    displayName: 'camera direction',
-    defaultValue: [0, 1, 0],
-    component,
-  },
-  '5-spheres': {
-    displayName: 'spheres',
-    defaultValue: [
-      { center: [-2, 3, 0], radius: 1 },
-      { center: [3, 5, 0], radius: 1 },
-      { center: [0, 5, 0], radius: 0.1 },
-    ],
-    component,
-  },
+  '3-camera-position': vec3Option('카메라 위치', [0, 0, 0]),
+  '4-camera-direction': normal3Option('카메라 방향', [0, 1, 0]),
+  '5-spheres': spheresOption('물체(구)들', [
+    { center: [-2, 3, 0], radius: 1 },
+    { center: [3, 5, 0], radius: 1 },
+    { center: [0, 5, 0], radius: 0.1 },
+  ]),
 };
 
 export function Preview1() {
