@@ -17,7 +17,9 @@ type: default
 import { NoSSR } from '../../../_internal/NoSSR';
 import { Collapse } from '../../common/components/Collapse';
 
+import { Preview0 } from './components/Preview0';
 import { Preview1 } from './components/Preview1';
+import { Preview2 } from './components/Preview2';
 
 !> 이 글은 [raytracer](/tags/raytracer) 시리즈입니다.
 
@@ -50,7 +52,7 @@ import { Preview1 } from './components/Preview1';
   style={{ border: '2px solid gray' }}
 />
 
-<NoSSR><Collapse title="직접 시도해 보기"><Preview1 /></Collapse></NoSSR>
+<NoSSR><Collapse title="직접 시도해 보기"><Preview0 /></Collapse></NoSSR>
 
 이제 카메라를 아주 간단히 바꿔보자.
 
@@ -64,6 +66,8 @@ import { Preview1 } from './components/Preview1';
   alt="결과 이미지"
   style={{ border: '2px solid gray' }}
 />
+
+<NoSSR><Collapse title="직접 시도해 보기"><Preview1 /></Collapse></NoSSR>
 
 일단 여기에는 문제가 좀 있다. 딱 봐도 이상해 보인다.
 
@@ -81,6 +85,8 @@ import { Preview1 } from './components/Preview1';
   alt="결과 이미지"
   style={{ border: '2px solid gray' }}
 />
+
+<NoSSR><Collapse title="직접 시도해 보기"><Preview2 /></Collapse></NoSSR>
 
 각도가 달라진다. 어떻게 하든 왜곡은 생기지만, 이는 어쩔 수 없는 현상이다.
 
@@ -148,5 +154,3 @@ import { Preview1 } from './components/Preview1';
   alt="결과 이미지"
   style={{ border: '2px solid gray' }}
 />
-
-// TODO: 마무리

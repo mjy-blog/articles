@@ -1,17 +1,12 @@
 'use client';
 
-import { ComponentType } from 'react';
 import { InteractiveCanvas } from '../../../common/components/interactiveCanvas/InteractiveCanvas';
-import {
-  InteractiveCanvasOptionDescriptor,
-  InteractiveCanvasOptionItemDescriptorComponentProps,
-} from '../../../common/components/interactiveCanvas/InteractiveCanvasOptionDescriptor';
+import { InteractiveCanvasOptionDescriptor } from '../../../common/components/interactiveCanvas/InteractiveCanvasOptionDescriptor';
 import { floatOption } from '../../../common/components/interactiveCanvas/option/floatOption';
 import { integerOption } from '../../../common/components/interactiveCanvas/option/integerOption';
-import { normal3Option } from '../../../common/components/interactiveCanvas/option/normal3Option';
 import { vec3Option } from '../../../common/components/interactiveCanvas/option/vec3Option';
-import { add } from '../../../common/projectSpecific/raytracer/add';
 import { Direction } from '../../../common/projectSpecific/raytracer/Direction';
+import { normalize } from '../../../common/projectSpecific/raytracer/normalize';
 import { Position } from '../../../common/projectSpecific/raytracer/Position';
 import { Ray } from '../../../common/projectSpecific/raytracer/Ray';
 import { Sphere } from '../../../common/projectSpecific/raytracer/Sphere';
@@ -20,23 +15,20 @@ import { spheresOption } from '../../../common/projectSpecific/raytracer/spheres
 
 interface State {
   '1-size': number;
-  '2-orthogonal-camera-scale': number;
+  '2-perspective-camera-fov': number;
   '3-camera-position': Position;
-  '4-camera-direction': Direction;
+  // '4-camera-direction': Direction;
   '5-spheres': Sphere[];
 }
 
-const component: ComponentType<
-  InteractiveCanvasOptionItemDescriptorComponentProps<any>
-> = function () {
-  return <div>// TODO</div>;
-};
-
 const options: InteractiveCanvasOptionDescriptor<State> = {
   '1-size': integerOption('이미지 크기', 512, 3840, 1),
-  '2-orthogonal-camera-scale': floatOption('직교 카메라 크기', 3),
+  '2-perspective-camera-fov': floatOption(
+    '카메라 시야각 (라디안)',
+    1.5707963267948966,
+  ),
   '3-camera-position': vec3Option('카메라 위치', [0, 0, 0]),
-  '4-camera-direction': normal3Option('카메라 방향', [0, 1, 0]),
+  // '4-camera-direction': normal3Option('카메라 방향', [0, 1, 0]),
   '5-spheres': spheresOption('물체(구)들', [
     { center: [-2, 3, 0], radius: 1 },
     { center: [3, 5, 0], radius: 1 },
@@ -50,9 +42,9 @@ export function Preview1() {
 
 function render({
   '1-size': size,
-  '2-orthogonal-camera-scale': orthogonalCameraScale,
+  '2-perspective-camera-fov': perspectiveCameraFov,
   '3-camera-position': cameraPosition,
-  '4-camera-direction': cameraDirection,
+  // '4-camera-direction': cameraDirection,
   '5-spheres': spheres,
 }: State): ImageData {
   const data = new Uint8ClampedArray(size * size * 4);
@@ -61,9 +53,9 @@ function render({
       const [r, g, b] = renderPixel(
         x / (size - 1),
         y / (size - 1),
-        orthogonalCameraScale,
+        perspectiveCameraFov,
         cameraPosition,
-        cameraDirection,
+        // cameraDirection,
         spheres,
       );
 
@@ -79,15 +71,15 @@ function render({
 function renderPixel(
   xOnImage: number,
   yOnImage: number,
-  orthogonalCameraScale: number,
+  perspectiveCameraFov: number,
   cameraPosition: Position,
-  cameraDirection: Direction,
+  // cameraDirection: Direction,
   spheres: Sphere[],
 ): [r: number, g: number, b: number] {
-  const x = (2 * xOnImage - 1) * orthogonalCameraScale;
-  const z = -(2 * yOnImage - 1) * orthogonalCameraScale;
-  const origin = add(cameraPosition, [x, 0, z]);
-  const ray: Ray = { origin, direction: cameraDirection };
+  const x = Math.tan(((2 * xOnImage - 1) * perspectiveCameraFov) / 2);
+  const z = -Math.tan(((2 * yOnImage - 1) * perspectiveCameraFov) / 2);
+  const direction: Direction = normalize([x, 1, z]);
+  const ray: Ray = { origin: cameraPosition, direction };
 
   let collide: ReturnType<typeof sphereCollide>;
   for (const sphere of spheres) {
