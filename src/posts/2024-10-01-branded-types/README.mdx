@@ -1,0 +1,178 @@
+---
+title: Branded Types
+description: 타입 브랜딩에 대해 알아보자. 타입스크립트 한정.
+preview: ""
+tags:
+  - TypeScript
+categories:
+  - TypeScript
+type: default
+---
+
+## 목차 \{#TOC\}
+
+[TOC]
+
+## Branded Type이란?
+
+Branded Type은 타입스크립트에서 같은 타입인데, 서로 호환되지 않는 타입을 말한다.
+
+예를 들면 이런 식으로.
+
+```ts
+type Uuid = string & { " type": "UUID" };
+type Id<T> = Uuid & { "idFor": T };
+type UserId = Id<"User">;
+type PostId = Id<"Post">;
+
+declare let uuid: Uuid;
+declare let userId: UserId;
+declare let postId: PostId;
+
+uuid = userId; // 오류 없음
+postId = userId; // 오류 발생!
+// Type 'UserId' is not assignable to type 'PostId'.
+//   Type 'UserId' is not assignable to type '{ " idFor": "Post"; }'.
+//     Types of property '" idFor"' are incompatible.
+//       Type '"User"' is not assignable to type '"Post"'
+```
+
+## 왜 필요한가?
+
+```ts
+interface User {
+    blah: '아무튼 뭔가 있다고 치자.';
+}
+
+declare function findUserById(userId: string): User;
+declare function getPostAuthorId(postId: string): string;
+
+function getPostAuthor(id: string): User {
+    return findUserById(id);
+}
+```
+
+물론 아마 누구도 이런 코드를 짜려고 하지 않을 것이다.
+어떤 모델의 id인지, 변수명으로 명확히 표현하겠지.
+
+하지만 인간은 실수를 할 수 있다. Post의 id를 넘겨야 할 곳에 User의 id를 넘길 수도 있는 것이다.
+
+```ts
+type UserId = string & { " idFor": "User" };
+type PostId = string & { " idFor": "Post" };
+
+interface User {
+    blah: '아무튼 뭔가 있다고 치자.';
+}
+
+declare function findUserById(userId: UserId): User;
+declare function getPostAuthorId(postId: PostId): UserId;
+
+function getPostAuthor(id: string): User {
+    return findUserById(id);
+// Argument of type 'PostId' is not assignable to parameter of type 'UserId'.
+//   Type 'PostId' is not assignable to type '{ " idFor": "User"; }'.
+//     Types of property '" idFor"' are incompatible.
+//       Type '"Post"' is not assignable to type '"User"'
+}
+```
+
+Branded Type을 사용함으로써 타입 오류를 통해 이런 실수를 방지할 수 있다. 런타임 비용 없이!
+
+참고로 속성 이름이 띄어쓰기로 시작하면 자동완성에 뜨지 않는다.
+
+## 다른 언어는?
+
+다른 (대부분의) 언어는 structural type system을 사용하지 않기 떄문에, 똑같이 생긴 타입이라도 다른 타입으로 취급한다.
+
+예를 들어 아래 코드에서는 동일하게 생긴 타입이지만, 다른 타입으로 취급하기 때문에 서로 호환되지 않는다.
+
+```C title="c"
+int main()
+{
+    struct { int i; } a;
+    struct { int i; } b;
+
+    b = a;
+// error: incompatible types when assigning to type ‘struct ’ from type ‘struct ’
+}
+```
+
+그렇기 때문에 타입 브랜딩 같은 개념은 따로 없으며, 그냥 한 번 감싼 타입을 만들어서 쓴다.
+
+러스트 같은 좋은 언어에서는 심지어 감싸기 전의 원래 타입으로 쓰기도 쉽다.
+
+```rs
+use std::ops::Deref;
+
+macro_rules! define_newtype {
+    ($name:ident) => {
+        struct $name(String);
+
+        impl $name {
+            fn new(s: &str) -> Self {
+                $name(s.to_string())
+            }
+        }
+
+        impl Deref for $name {
+            type Target = String;
+
+            fn deref(&self) -> &Self::Target {
+                &self.0
+            }
+        }
+    };
+}
+
+define_newtype!(UserId);
+
+fn main() {
+    let user_id = UserId::new("mjy");
+
+    // Deref 없이 원래대로라면 user_id.0으로 썼어야 한다.
+    println!("UserId: {}", *user_id);
+
+    // 마찬가지로 원래대로라면 user_id.0.len으로 썼어야 한다.
+    println!("UserId length: {}", user_id.len());}
+```
+
+## 주의할 점
+
+`string`에 새 속성을 넣을 수는 없다. 그렇기 때문에 항상 `as UserId`처럼 as를 쓰게 될 것이다.
+
+```ts
+export function idOf<T>(id: string): Id<T> {
+  return id as Id<T>;
+}
+```
+
+귀찮아서 이런 함수를 만들어 쓰기도 한다. 올바른 UUID가 맞는지 검증하는 등의 작업을 여기서 해도 좋고.
+
+단, `idOf`든 `as`든, 쓸 때 정말 이게 필요한지 유심히 살펴보고 주의해서 사용해야 한다.
+
+가능하면 프레임워크 내부 등에서나 쓰고, 메인 로직에서는 쓸 일이 없도록 최소화하자.
+
+## 대안
+
+`as`를 쓰는 게 불편하다면?
+
+타입스크립트에서도 마찬가지로 그냥 한 번 감싼 타입을 만들어서 써도 된다.
+
+```ts
+interface Id<T> {
+    value: string;
+    for: T;
+}
+
+type UserId = Id<'user'>;
+type PostId = Id<'post'>;
+```
+
+대신 값에 접근하기가 불편해지고, 거의 무의미하겠지만 성능도 아주 조금 안 좋아진다.
+
+그리고 어차피 이래도 `as` 쓰고 싶을걸?
+
+## 결론
+
+타입 브랜딩 쓰자.
