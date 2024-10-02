@@ -21,7 +21,7 @@ Branded Type은 타입스크립트에서 같은 타입인데, 서로 호환되�
 
 ```ts
 type Uuid = string & { " type": "UUID" };
-type Id<T> = Uuid & { "idFor": T };
+type Id<T> = Uuid & { " idFor": T };
 type UserId = Id<"User">;
 type PostId = Id<"Post">;
 
