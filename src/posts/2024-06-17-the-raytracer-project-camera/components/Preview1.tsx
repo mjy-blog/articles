@@ -85,7 +85,7 @@ function renderPixel(
   for (const sphere of spheres) {
     const tmp = sphereCollide(ray, sphere);
     if (tmp) {
-      if (!collide || collide[1] < tmp[1]) {
+      if (!collide || collide[1] > tmp[1]) {
         collide = tmp;
       }
     }
