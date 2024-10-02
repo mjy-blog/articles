@@ -13,7 +13,7 @@ type: default
 
 [TOC]
 
-## Branded Type이란?
+## Branded Type이란? \{what-is-branded-type\}
 
 Branded Type은 타입스크립트에서 같은 타입인데, 서로 호환되지 않는 타입을 말한다.
 
@@ -37,7 +37,7 @@ postId = userId; // 오류 발생!
 //       Type '"User"' is not assignable to type '"Post"'
 ```
 
-## 왜 필요한가?
+## 왜 필요한가? \{why-needed\}
 
 ```ts
 interface User {
@@ -81,7 +81,7 @@ Branded Type을 사용함으로써 타입 오류를 통해 이런 실수를 방�
 
 참고로 속성 이름이 띄어쓰기로 시작하면 자동완성에 뜨지 않는다.
 
-## 다른 언어는?
+## 다른 언어는? \{in-other-languages\}
 
 다른 (대부분의) 언어는 structural type system을 사용하지 않기 떄문에, 똑같이 생긴 타입이라도 다른 타입으로 취급한다.
 
@@ -137,7 +137,7 @@ fn main() {
     println!("UserId length: {}", user_id.len());}
 ```
 
-## 주의할 점
+## 주의할 점 \{things-to-note\}
 
 `string`에 새 속성을 넣을 수는 없다. 그렇기 때문에 항상 `as UserId`처럼 as를 쓰게 될 것이다.
 
@@ -153,7 +153,7 @@ export function idOf<T>(id: string): Id<T> {
 
 가능하면 프레임워크 내부 등에서나 쓰고, 메인 로직에서는 쓸 일이 없도록 최소화하자.
 
-## 대안
+## 대안 \{alternatives\}
 
 `as`를 쓰는 게 불편하다면?
 
@@ -173,6 +173,6 @@ type PostId = Id<'post'>;
 
 그리고 어차피 이래도 `as` 쓰고 싶을걸?
 
-## 결론
+## 결론 \{conclusion\}
 
 타입 브랜딩 쓰자.
