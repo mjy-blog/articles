@@ -52,7 +52,7 @@ export async function compile(
 }
 
 // TODO: parse MDX to prevent false positives
-const regex = /$(#+) (.*?) \\\{#(.*?)\\\}$/g;
+const regex = /^(#+) (.*?) \\\{#(.*?)\\\}$/gm;
 function extractTocItems(input: string): TocItem[] {
   const matches: TocItem[] = [];
   let match;
