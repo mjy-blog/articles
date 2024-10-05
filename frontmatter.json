@@ -45,6 +45,11 @@
           "title": "categories",
           "name": "categories",
           "type": "categories"
+        },
+        {
+          "title": "excerpt",
+          "name": "excerpt",
+          "type": "string"
         }
       ]
     }

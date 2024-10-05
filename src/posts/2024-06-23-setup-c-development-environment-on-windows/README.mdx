@@ -10,6 +10,7 @@ tags:
 categories:
   - C
 type: default
+excerpt: 이 명령어로 Visual Studio Code, Git, VIsual Studio Build Tools, CMake를 한 번에 설치할 수 있다! 이후 터미널에서 `cmake -B builddir`, `cmake --build builddir`를 입력하면...
 ---
 
 Windows에서 C 개발환경을 설정해보자.
@@ -41,7 +42,9 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManage
 ![Chocolatey 설치 화면](./static/2-install-chocolatey.png)
 
 ```shell
-choco install vscode git visualstudio2022buildtools --package-parameters "--allWorkloads --includeRecommended --includeOptional --passive --locale en-US" cmake --installargs 'ADD_CMAKE_TO_PATH=System'
+choco install vscode git
+choco install visualstudio2022buildtools --package-parameters "--allWorkloads --includeRecommended --includeOptional --passive --locale en-US"
+choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
 ```
 
 이 명령어로 Visual Studio Code, Git, VIsual Studio Build Tools, CMake를 한 번에 설치할 수 있다!
