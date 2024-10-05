@@ -2,11 +2,13 @@ import { spawn } from 'node:child_process';
 import { join, resolve } from 'node:path';
 import { stderr } from 'node:process';
 
+import { PostAttribute } from '@mjy-blog/theme-lib';
 import frontmatter from 'front-matter';
-
 import { glob } from 'glob';
 import { writeFile } from 'node:fs/promises';
+
 import { compile } from './compile';
+import { CorePost } from './externalTypes';
 import { listPosts } from './listPosts';
 
 async function getCreateTime(path: string): Promise<string> {
@@ -73,10 +75,8 @@ async function getUpdateTime(path: string): Promise<string> {
   return result || new Date().toISOString();
 }
 
-interface Article {
-  attributes: any;
-  path: string;
-  slug: string;
+interface CustomPostAttribute extends PostAttribute {
+  excerpt: string;
 }
 
 (async () => {
@@ -92,13 +92,13 @@ interface Article {
   }
 
   const articlePaths = await listPosts(resolve('src/posts'));
-  const articles: Article[] = [];
+  const articles: CorePost<CustomPostAttribute>[] = [];
   for (let i = 0; i < articlePaths.length; i++) {
     const path = articlePaths[i];
     console.log(`(${i + 1}/${articlePaths.length}) compiling ${path}`);
     const inPath = join('src/posts', path, 'README.mdx');
     const outPath = join('out/posts', path, 'page.js');
-    const { content } = await compile(inPath, outPath);
+    const { content, tocItems } = await compile(inPath, outPath);
     const { attributes } = frontmatter<any>(content);
     attributes.createTime ??= await getCreateTime(inPath);
     attributes.updateTime ??= await getUpdateTime(inPath);
@@ -106,6 +106,7 @@ interface Article {
       path: join('posts', path, 'page.js'),
       attributes,
       slug: path,
+      tocItems,
     });
   }
   console.log('done.');
