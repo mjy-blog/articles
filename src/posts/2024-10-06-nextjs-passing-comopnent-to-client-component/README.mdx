@@ -1,0 +1,76 @@
+---
+title: Next.js 문제 해결 - 클라이언트 컴포넌트에 컴포넌트 넘기기
+description: Server Action 이후에, 클라이언트 컴포넌트에 컴포넌트 넘기는 방법
+preview: ""
+tags:
+  - Next.js
+categories:
+  - 웹
+  - Next.js
+type: default
+excerpt: 'Error: Functions cannot be passed directly to Client Components unless you explicitly expose it by marking it with "use server".'
+---
+
+얼마 전 업데이트로 서버 컴포넌트에서 클라이언트 컴포넌트로 컴포넌트를 props로 넘길 수 없게 되었다.
+
+서버 컴포넌트에서 클라이언트로 함수를 props로 넘기면 Server Action이라는 기능을 사용하려던 것으로 해석되기 때문이다.
+
+## 목차 \{#TOC\}
+
+[TOC]
+
+## 수정 전 코드 \{#before\}
+
+```tsx file=./embed/before/page.tsx title="page.tsx"
+```
+
+```tsx file=./embed/before/ClientComponent.tsx title="ClientComponent.tsx"
+```
+
+매우 그럴 듯한 코드다. 별 문제 없어 보인다.
+
+하지만 빌드 시 이런 오류가 발생한다.
+
+> Error: Functions cannot be passed directly to Client Components unless you explicitly expose it by marking it with "use server". Or maybe you meant to call this function rather than return it.
+
+## 수정 후 코드 \{#after\}
+
+```tsx file=./embed/after/page.tsx title="page.tsx"
+```
+
+```tsx file=./embed/after/ClientComponent.tsx title="ClientComponent.tsx"
+```
+
+변경사항 별 거 없다.
+
+```diff-tsx file=./embed/page.tsx.diff title="page.tsx.diff"
+```
+
+```diff-tsx file=./embed/ClientComponent.tsx.diff title="ClientComponent.tsx.diff"
+```
+
+그냥 컴포넌트였던 것을 리액트 엘리먼트로 바꿔서 넘겼을 뿐이다.
+
+## 넘길 컴포넌트의 props가 가변이라면? \{#if-props-of-component-to-pass-is-variable\}
+
+그럼 매우 귀찮아진다.
+
+```ts file=./embed/variable/MyPropsContext.ts title="MyPropsContext.ts"
+```
+
+우선 context를 하나 만들고,
+
+```tsx file=./embed/variable/page.tsx title="page.tsx"
+```
+
+```tsx file=./embed/variable/ClientComponent.tsx title="ClientComponent.tsx"
+```
+
+`<DynamicContent />`를 context provider에 넣고,
+
+```tsx file=./embed/variable/data/test.tsx title="data/test.tsx"
+```
+
+그리고 매우 귀찮지만, 각 파일에서 그 context를 사용하는 컴포넌트로 감싸주면 되기는 한다.
+
+실제로 동작하는 예시는 [여기](https://github.com/my-trash-bin/241006)에서 확인할 수 있다.
