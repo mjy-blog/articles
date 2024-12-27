@@ -205,26 +205,26 @@ export function BingoGrid({ props, state, setState }: BingoGridProps) {
               width: '100%',
               aspectRatio: '1 / 1',
               boxSizing: 'border-box',
-              border: `1px solid ${
+              border: `2px solid ${
                 i === 21
                   ? 'gray'
                   : cond[i] == state[i]
                   ? 'orange'
                   : state[i]
-                  ? 'black'
-                  : 'white'
+                  ? '#444'
+                  : '#BBB'
               }`,
-              background: state[i] ? 'black' : 'white',
+              background: state[i] ? '#444' : '#BBB',
               color: state[i] ? 'white' : 'black',
               outline:
                 props[i] === 'true'
-                  ? '1px solid blue'
+                  ? '2px solid blue'
                   : props[i] === 'false'
-                  ? '1px solid red'
+                  ? '2px solid red'
                   : props[i] === 'true-assumed'
-                  ? '1px solid green'
+                  ? '2px solid green'
                   : props[i] === 'false-assumed'
-                  ? '1px solid yellow'
+                  ? '2px solid yellow'
                   : undefined,
               fontSize: '1.5vmin',
             }}
