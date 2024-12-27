@@ -2,7 +2,12 @@
 
 import { SetStateAction } from 'react';
 
-export type BingoCellProps = 'true' | 'false' | 'IDK';
+export type BingoCellProps =
+  | 'true'
+  | 'false'
+  | 'true-assumed'
+  | 'false-assumed'
+  | 'IDK';
 
 export type BingoProps = [
   A1: BingoCellProps,
@@ -187,28 +192,40 @@ export function BingoGrid({ props, state, setState }: BingoGridProps) {
           <button
             key={i}
             type="button"
-            onClick={() =>
-              setState((state) => {
-                const newState = [...state] as BingoState;
-                newState[i] = !newState[i];
-                return newState;
-              })
-            }
+            onClick={() => {
+              if (props[i] === 'IDK') {
+                setState((state) => {
+                  const newState = [...state] as BingoState;
+                  newState[i] = !newState[i];
+                  return newState;
+                });
+              }
+            }}
             style={{
               width: '100%',
               aspectRatio: '1 / 1',
               boxSizing: 'border-box',
-              border: `0.5rem solid ${
-                i === 21 ? 'gray' : cond[i] == state[i] ? 'red' : 'black'
+              border: `1px solid ${
+                i === 21
+                  ? 'gray'
+                  : cond[i] == state[i]
+                  ? 'orange'
+                  : state[i]
+                  ? 'black'
+                  : 'white'
               }`,
               background: state[i] ? 'black' : 'white',
               color: state[i] ? 'white' : 'black',
               outline:
-                props[i] === 'IDK'
-                  ? undefined
-                  : props[i] === 'true'
-                  ? '2px solid blue'
-                  : '2px solid red',
+                props[i] === 'true'
+                  ? '1px solid blue'
+                  : props[i] === 'false'
+                  ? '1px solid red'
+                  : props[i] === 'true-assumed'
+                  ? '1px solid green'
+                  : props[i] === 'false-assumed'
+                  ? '1px solid yellow'
+                  : undefined,
               fontSize: '1.5vmin',
             }}
           >

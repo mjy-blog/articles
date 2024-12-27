@@ -9,10 +9,13 @@ export interface BingoUIProps {
 
 export function BingoUI({ props }: BingoUIProps) {
   const [state, setState] = useState(
-    () => props.map((p) => p === 'true') as BingoState,
+    () => props.map((p) => p === 'true' || p === 'true-assumed') as BingoState,
   );
 
-  const reset = () => setState(props.map((p) => p === 'true') as BingoState);
+  const reset = () =>
+    setState(
+      props.map((p) => p === 'true' || p === 'true-assumed') as BingoState,
+    );
 
   return (
     <div>
