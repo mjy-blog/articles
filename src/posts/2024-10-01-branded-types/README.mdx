@@ -69,7 +69,7 @@ interface User {
 declare function findUserById(userId: UserId): User;
 declare function getPostAuthorId(postId: PostId): UserId;
 
-function getPostAuthor(id: string): User {
+function getPostAuthor(id: PostId): User {
     return findUserById(id);
 // Argument of type 'PostId' is not assignable to parameter of type 'UserId'.
 //   Type 'PostId' is not assignable to type '{ " idFor": "User"; }'.
@@ -135,7 +135,8 @@ fn main() {
     println!("UserId: {}", *user_id);
 
     // 마찬가지로 원래대로라면 user_id.0.len으로 썼어야 한다.
-    println!("UserId length: {}", user_id.len());}
+    println!("UserId length: {}", user_id.len());
+}
 ```
 
 ## 주의할 점 \{#things-to-note\}
