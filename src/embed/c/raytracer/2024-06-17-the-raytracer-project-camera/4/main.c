@@ -41,7 +41,7 @@ bool collide(ray_t ray, sphere_t sphere, f3_t *out_normal,
   /*
     이제 sphere를 x^2 + y^2 + z^2 - r^2 = 0으로 나타낼 수 있음
     x, y, z는 ray.origin + ray.direction * t의 x, y, z가 됨
-    여기서 t는 광선이 이동한 거리, r은 ray.origin
+    여기서 t는 광선이 이동한 거리, r은 구의 반지름
 
     x^2 + y^2 + z^2 - r^2 = 0이라는 식에서 x^2는 이렇게 다시 쓸 수 있음
     (ray.origin.x + ray.direction.x * t)^2
@@ -58,7 +58,7 @@ bool collide(ray_t ray, sphere_t sphere, f3_t *out_normal,
     여기서의 A와 B, C를 각각 구하면 다음과 같다
     A = u^2 + v^2 + w^2
     B = 2au + 2bv + 2cw
-    C = a^2 + b^2 + c^2
+    C = a^2 + b^2 + c^2 - r^2
   */
   const float a =
       sqr(ray.direction.x) + sqr(ray.direction.y) + sqr(ray.direction.z);
