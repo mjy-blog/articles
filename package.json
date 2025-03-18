@@ -35,5 +35,9 @@
     "rimraf": "^5.0.7",
     "tsx": "^4.11.0",
     "typescript": "^5.4.5"
+  },
+  "devDependencies": {
+    "@mjy-blog/theme-lib": "^0.1.9",
+    "next": "^15.2.3"
   }
 }
