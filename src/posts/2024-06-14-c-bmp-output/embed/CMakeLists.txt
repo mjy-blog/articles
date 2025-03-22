@@ -1,5 +1,0 @@
-cmake_minimum_required(VERSION 3.10)
-project(bmp)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_BINARY_DIR})
-add_executable(dummy_bmp main.c bmp.c)
